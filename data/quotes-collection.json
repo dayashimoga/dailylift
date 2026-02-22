@@ -1,202 +1,206 @@
 [
-    {
-        "text": "The only way to do great work is to love what you do.",
-        "author": "Steve Jobs"
-    },
-    {
-        "text": "In the middle of difficulty lies opportunity.",
-        "author": "Albert Einstein"
-    },
-    {
-        "text": "It does not matter how slowly you go as long as you do not stop.",
-        "author": "Confucius"
-    },
-    {
-        "text": "Believe you can and you're halfway there.",
-        "author": "Theodore Roosevelt"
-    },
-    {
-        "text": "The best time to plant a tree was 20 years ago. The second best time is now.",
-        "author": "Chinese Proverb"
-    },
-    {
-        "text": "Your limitation—it's only your imagination.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Push yourself, because no one else is going to do it for you.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Great things never come from comfort zones.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Dream it. Wish it. Do it.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Success doesn't just find you. You have to go out and get it.",
-        "author": "Unknown"
-    },
-    {
-        "text": "The harder you work for something, the greater you'll feel when you achieve it.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Don't stop when you're tired. Stop when you're done.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Wake up with determination. Go to bed with satisfaction.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Do something today that your future self will thank you for.",
-        "author": "Sean Patrick Flanery"
-    },
-    {
-        "text": "Little things make big days.",
-        "author": "Unknown"
-    },
-    {
-        "text": "It's going to be hard, but hard does not mean impossible.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Don't wait for opportunity. Create it.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Sometimes we're tested not to show our weaknesses, but to discover our strengths.",
-        "author": "Unknown"
-    },
-    {
-        "text": "The key to success is to focus on goals, not obstacles.",
-        "author": "Unknown"
-    },
-    {
-        "text": "Dream bigger. Do bigger.",
-        "author": "Unknown"
-    },
-    {
-        "text": "The secret of getting ahead is getting started.",
-        "author": "Mark Twain"
-    },
-    {
-        "text": "It always seems impossible until it's done.",
-        "author": "Nelson Mandela"
-    },
-    {
-        "text": "What you get by achieving your goals is not as important as what you become by achieving your goals.",
-        "author": "Zig Ziglar"
-    },
-    {
-        "text": "Don't be afraid to give up the good to go for the great.",
-        "author": "John D. Rockefeller"
-    },
-    {
-        "text": "I find that the harder I work, the more luck I seem to have.",
-        "author": "Thomas Jefferson"
-    },
-    {
-        "text": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-        "author": "Winston Churchill"
-    },
-    {
-        "text": "The way to get started is to quit talking and begin doing.",
-        "author": "Walt Disney"
-    },
-    {
-        "text": "If you are working on something that you really care about, you don't have to be pushed. The vision pulls you.",
-        "author": "Steve Jobs"
-    },
-    {
-        "text": "People who are crazy enough to think they can change the world, are the ones who do.",
-        "author": "Rob Siltanen"
-    },
-    {
-        "text": "Failure will never overtake me if my determination to succeed is strong enough.",
-        "author": "Og Mandino"
-    },
-    {
-        "text": "Knowing is not enough; we must apply. Wishing is not enough; we must do.",
-        "author": "Johann Wolfgang Von Goethe"
-    },
-    {
-        "text": "We generate fears while we sit. We overcome them by action.",
-        "author": "Dr. Henry Link"
-    },
-    {
-        "text": "Whether you think you can or think you can't, you're right.",
-        "author": "Henry Ford"
-    },
-    {
-        "text": "Security is mostly a superstition. Life is either a daring adventure or nothing.",
-        "author": "Helen Keller"
-    },
-    {
-        "text": "The man who has confidence in himself gains the confidence of others.",
-        "author": "Hasidic Proverb"
-    },
-    {
-        "text": "The only limit to our realization of tomorrow will be our doubts of today.",
-        "author": "Franklin D. Roosevelt"
-    },
-    {
-        "text": "Creativity is intelligence having fun.",
-        "author": "Albert Einstein"
-    },
-    {
-        "text": "What you do today can improve all your tomorrows.",
-        "author": "Ralph Marston"
-    },
-    {
-        "text": "You are never too old to set another goal or to dream a new dream.",
-        "author": "C.S. Lewis"
-    },
-    {
-        "text": "To see what is right and not do it is a lack of courage.",
-        "author": "Confucius"
-    },
-    {
-        "text": "Reading is to the mind, what exercise is to the body.",
-        "author": "Brian Tracy"
-    },
-    {
-        "text": "The future depends on what you do today.",
-        "author": "Mahatma Gandhi"
-    },
-    {
-        "text": "Smart people learn from everything and everyone, average people from their experiences, stupid people already have all the answers.",
-        "author": "Socrates"
-    },
-    {
-        "text": "Do what you feel in your heart to be right – for you'll be criticized anyway.",
-        "author": "Eleanor Roosevelt"
-    },
-    {
-        "text": "Happiness is not something ready made. It comes from your own actions.",
-        "author": "Dalai Lama XIV"
-    },
-    {
-        "text": "Whatever the mind of man can conceive and believe, it can achieve.",
-        "author": "Napoleon Hill"
-    },
-    {
-        "text": "First, have a definite, clear practical ideal; a goal, an objective.",
-        "author": "Aristotle"
-    },
-    {
-        "text": "You miss 100% of the shots you don't take.",
-        "author": "Wayne Gretzky"
-    },
-    {
-        "text": "The mind is everything. What you think you become.",
-        "author": "Buddha"
-    },
-    {
-        "text": "An unexamined life is not worth living.",
-        "author": "Socrates"
-    }
+  {
+    "text": "The only way to do great work is to love what you do.",
+    "author": "Steve Jobs"
+  },
+  {
+    "text": "In the middle of difficulty lies opportunity.",
+    "author": "Albert Einstein"
+  },
+  {
+    "text": "It does not matter how slowly you go as long as you do not stop.",
+    "author": "Confucius"
+  },
+  {
+    "text": "Believe you can and you're halfway there.",
+    "author": "Theodore Roosevelt"
+  },
+  {
+    "text": "The best time to plant a tree was 20 years ago. The second best time is now.",
+    "author": "Chinese Proverb"
+  },
+  {
+    "text": "Your limitation—it's only your imagination.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Push yourself, because no one else is going to do it for you.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Great things never come from comfort zones.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Dream it. Wish it. Do it.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Success doesn't just find you. You have to go out and get it.",
+    "author": "Unknown"
+  },
+  {
+    "text": "The harder you work for something, the greater you'll feel when you achieve it.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Don't stop when you're tired. Stop when you're done.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Wake up with determination. Go to bed with satisfaction.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Do something today that your future self will thank you for.",
+    "author": "Sean Patrick Flanery"
+  },
+  {
+    "text": "Little things make big days.",
+    "author": "Unknown"
+  },
+  {
+    "text": "It's going to be hard, but hard does not mean impossible.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Don't wait for opportunity. Create it.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Sometimes we're tested not to show our weaknesses, but to discover our strengths.",
+    "author": "Unknown"
+  },
+  {
+    "text": "The key to success is to focus on goals, not obstacles.",
+    "author": "Unknown"
+  },
+  {
+    "text": "Dream bigger. Do bigger.",
+    "author": "Unknown"
+  },
+  {
+    "text": "The secret of getting ahead is getting started.",
+    "author": "Mark Twain"
+  },
+  {
+    "text": "It always seems impossible until it's done.",
+    "author": "Nelson Mandela"
+  },
+  {
+    "text": "What you get by achieving your goals is not as important as what you become by achieving your goals.",
+    "author": "Zig Ziglar"
+  },
+  {
+    "text": "Don't be afraid to give up the good to go for the great.",
+    "author": "John D. Rockefeller"
+  },
+  {
+    "text": "I find that the harder I work, the more luck I seem to have.",
+    "author": "Thomas Jefferson"
+  },
+  {
+    "text": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+    "author": "Winston Churchill"
+  },
+  {
+    "text": "The way to get started is to quit talking and begin doing.",
+    "author": "Walt Disney"
+  },
+  {
+    "text": "If you are working on something that you really care about, you don't have to be pushed. The vision pulls you.",
+    "author": "Steve Jobs"
+  },
+  {
+    "text": "People who are crazy enough to think they can change the world, are the ones who do.",
+    "author": "Rob Siltanen"
+  },
+  {
+    "text": "Failure will never overtake me if my determination to succeed is strong enough.",
+    "author": "Og Mandino"
+  },
+  {
+    "text": "Knowing is not enough; we must apply. Wishing is not enough; we must do.",
+    "author": "Johann Wolfgang Von Goethe"
+  },
+  {
+    "text": "We generate fears while we sit. We overcome them by action.",
+    "author": "Dr. Henry Link"
+  },
+  {
+    "text": "Whether you think you can or think you can't, you're right.",
+    "author": "Henry Ford"
+  },
+  {
+    "text": "Security is mostly a superstition. Life is either a daring adventure or nothing.",
+    "author": "Helen Keller"
+  },
+  {
+    "text": "The man who has confidence in himself gains the confidence of others.",
+    "author": "Hasidic Proverb"
+  },
+  {
+    "text": "The only limit to our realization of tomorrow will be our doubts of today.",
+    "author": "Franklin D. Roosevelt"
+  },
+  {
+    "text": "Creativity is intelligence having fun.",
+    "author": "Albert Einstein"
+  },
+  {
+    "text": "What you do today can improve all your tomorrows.",
+    "author": "Ralph Marston"
+  },
+  {
+    "text": "You are never too old to set another goal or to dream a new dream.",
+    "author": "C.S. Lewis"
+  },
+  {
+    "text": "To see what is right and not do it is a lack of courage.",
+    "author": "Confucius"
+  },
+  {
+    "text": "Reading is to the mind, what exercise is to the body.",
+    "author": "Brian Tracy"
+  },
+  {
+    "text": "The future depends on what you do today.",
+    "author": "Mahatma Gandhi"
+  },
+  {
+    "text": "Smart people learn from everything and everyone, average people from their experiences, stupid people already have all the answers.",
+    "author": "Socrates"
+  },
+  {
+    "text": "Do what you feel in your heart to be right – for you'll be criticized anyway.",
+    "author": "Eleanor Roosevelt"
+  },
+  {
+    "text": "Happiness is not something ready made. It comes from your own actions.",
+    "author": "Dalai Lama XIV"
+  },
+  {
+    "text": "Whatever the mind of man can conceive and believe, it can achieve.",
+    "author": "Napoleon Hill"
+  },
+  {
+    "text": "First, have a definite, clear practical ideal; a goal, an objective.",
+    "author": "Aristotle"
+  },
+  {
+    "text": "You miss 100% of the shots you don't take.",
+    "author": "Wayne Gretzky"
+  },
+  {
+    "text": "The mind is everything. What you think you become.",
+    "author": "Buddha"
+  },
+  {
+    "text": "An unexamined life is not worth living.",
+    "author": "Socrates"
+  },
+  {
+    "text": "Life moves on and so should we.",
+    "author": "Spencer Johnson"
+  }
 ]
