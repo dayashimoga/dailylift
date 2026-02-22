@@ -47,9 +47,7 @@
   },
   "dependencies": {
     "marked": "^12.0.0",
-    "gray-matter": "^4.0.3",
-    "oauth-1.0a": "^2.2.6",
-    "crypto-js": "^4.2.0"
+    "gray-matter": "^4.0.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",
