@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DailyLift — Daily Quotes, Free Tools & Inspiration</title>
+  <meta name="description" content="Start your day with motivational quotes, free online calculators (Bill Splitter, BMI, Unit Converter), and insightful blog articles. Updated daily, 100% free.">
+  <meta name="keywords" content="daily quotes, motivational quotes, free bill splitter, BMI calculator, unit converter, productivity tips, inspiration">
+  <meta name="author" content="DailyLift">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DailyLift — Daily Quotes, Free Tools & Inspiration">
+  <meta property="og:description" content="Start your day with motivational quotes, free online calculators, and insightful articles.">
+  <meta property="og:url" content="https://dailylift.site">
+  <meta property="og:site_name" content="DailyLift">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DailyLift — Daily Quotes & Free Tools">
+  <meta name="twitter:description" content="Daily motivation, free calculators, and expert articles.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DailyLift",
+    "url": "https://dailylift.site",
+    "description": "Daily motivational quotes, free online tools, and inspiring blog articles.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://dailylift.site/blog.html?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Google AdSense (replace ca-pub-XXXX with your publisher ID) -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXX" crossorigin="anonymous"></script> -->
+
+  <!-- Google Analytics GA4 (replace G-XXXX with your measurement ID) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXX');
+  </script> -->
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">⚡</span>
+        DailyLift
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <span class="hero-tagline">✨ Updated Daily — 100% Free</span>
+        <h1>Your Daily Dose of <span class="gradient-text">Motivation</span> & Free Tools</h1>
+        <p class="hero-description">
+          Start every morning with a powerful quote, use our free calculators, 
+          and explore expert articles — all automated, all free, forever.
+        </p>
+        <div class="hero-buttons">
+          <a href="#quote-section" class="btn btn-primary">Today's Quote ↓</a>
+          <a href="tools.html" class="btn btn-secondary">Try Free Tools</a>
+        </div>
+      </div>
+      <div class="hero-quote">
+        <div class="glass-card quote-card" id="heroQuoteCard">
+          <span class="quote-icon">❝</span>
+          <p class="quote-text" id="heroQuoteText">Loading today's inspiration...</p>
+          <p class="quote-author" id="heroQuoteAuthor">—</p>
+          <p class="quote-date" id="heroQuoteDate"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Daily Quote Section -->
+  <section class="section" id="quote-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="badge">Quote of the Day</span>
+        <h2>Today's <span class="gradient-text">Inspiration</span></h2>
+        <p>A new motivational quote every day to keep you moving forward.</p>
+      </div>
+      <div class="glass-card quote-card animate-on-scroll" style="max-width: 700px; margin: 0 auto;">
+        <span class="quote-icon">❝</span>
+        <p class="quote-text" id="dailyQuoteText">Loading today's quote...</p>
+        <p class="quote-author" id="dailyQuoteAuthor">—</p>
+        <p class="quote-date" id="dailyQuoteDate"></p>
+      </div>
+      <div style="text-align:center; margin-top: var(--space-xl);">
+        <a href="#" class="btn btn-ghost" id="downloadQuotePdf">📄 Download 500+ Quotes PDF (Free)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Slot -->
+  <div class="container" style="margin: var(--space-lg) auto;">
+    <div class="ad-slot" id="ad-top">
+      <!-- AdSense or affiliate banner goes here -->
+      Ad Space — <a href="https://www.google.com/adsense" target="_blank" rel="noopener">Google AdSense</a>
+    </div>
+  </div>
+
+  <!-- Tools Section -->
+  <section class="section" id="tools-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="badge">Free Tools</span>
+        <h2>Handy <span class="gradient-text">Calculators</span></h2>
+        <p>Simple, fast, and free — no sign-up needed. All calculations happen in your browser.</p>
+      </div>
+      <div class="tools-grid">
+        <a href="tools.html#bill-splitter" class="glass-card tool-card animate-on-scroll">
+          <div class="tool-icon">💰</div>
+          <h3>Bill Splitter</h3>
+          <p>Split bills with friends, add tip percentages, and get per-person totals instantly.</p>
+          <span class="btn btn-ghost">Use Tool →</span>
+        </a>
+        <a href="tools.html#bmi-calculator" class="glass-card tool-card animate-on-scroll">
+          <div class="tool-icon">⚖️</div>
+          <h3>BMI Calculator</h3>
+          <p>Calculate your Body Mass Index with our visual gauge and get health category insights.</p>
+          <span class="btn btn-ghost">Use Tool →</span>
+        </a>
+        <a href="tools.html#unit-converter" class="glass-card tool-card animate-on-scroll">
+          <div class="tool-icon">🔄</div>
+          <h3>Unit Converter</h3>
+          <p>Convert between units of length, weight, temperature, volume, and speed — all in one place.</p>
+          <span class="btn btn-ghost">Use Tool →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section class="section" id="blog-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="badge">Latest Articles</span>
+        <h2>Expert <span class="gradient-text">Insights</span></h2>
+        <p>Actionable articles on productivity, health, finance, and personal growth.</p>
+      </div>
+      <div class="blog-grid" id="blogGrid">
+        <!-- Blog cards populated by JS during build or runtime -->
+      </div>
+      <div style="text-align: center; margin-top: var(--space-xl);">
+        <a href="blog.html" class="btn btn-secondary">View All Articles →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / Digital Products -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content animate-on-scroll">
+        <span class="badge">Digital Products</span>
+        <h2>Premium <span class="gradient-text">Resources</span></h2>
+        <p>Level up with curated collections, printable planners, and premium tools — affordable and thoughtfully designed.</p>
+        <div style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-lg);">
+          <a href="https://gumroad.com" class="btn btn-primary" target="_blank" rel="noopener">
+            🛒 Browse Products on Gumroad
+          </a>
+          <a href="#" class="btn btn-secondary" id="downloadQuotePdfCta">
+            📄 Free: 500 Quotes PDF
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Affiliate Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="badge">Recommended</span>
+        <h2>Books We <span class="gradient-text">Love</span></h2>
+        <p>Hand-picked books on motivation, productivity, and personal growth.</p>
+      </div>
+      <div class="tools-grid">
+        <div class="glass-card tool-card animate-on-scroll">
+          <div class="tool-icon">📚</div>
+          <h3>Atomic Habits</h3>
+          <p>James Clear's masterpiece on building good habits and breaking bad ones.</p>
+          <a href="https://www.amazon.in/dp/0735211299?tag=YOUR_AFFILIATE_TAG" class="btn btn-ghost" target="_blank" rel="noopener nofollow">Buy on Amazon →</a>
+        </div>
+        <div class="glass-card tool-card animate-on-scroll">
+          <div class="tool-icon">📖</div>
+          <h3>The 5 AM Club</h3>
+          <p>Robin Sharma's guide to owning your mornings and transforming productivity.</p>
+          <a href="https://www.amazon.in/dp/9388302583?tag=YOUR_AFFILIATE_TAG" class="btn btn-ghost" target="_blank" rel="noopener nofollow">Buy on Amazon →</a>
+        </div>
+        <div class="glass-card tool-card animate-on-scroll">
+          <div class="tool-icon">🧠</div>
+          <h3>Deep Work</h3>
+          <p>Cal Newport's rules for focused success in a distracted world.</p>
+          <a href="https://www.amazon.in/dp/0349413681?tag=YOUR_AFFILIATE_TAG" class="btn btn-ghost" target="_blank" rel="noopener nofollow">Buy on Amazon →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ad Slot -->
+  <div class="container" style="margin: var(--space-lg) auto;">
+    <div class="ad-slot" id="ad-bottom">
+      Ad Space — <a href="https://www.google.com/adsense" target="_blank" rel="noopener">Google AdSense</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-brand">
+            <span class="brand-icon">⚡</span>
+            DailyLift
+          </a>
+          <p>Your daily source of motivation, free tools, and expert insights. Updated automatically, every single day.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Pages</h4>
+          <a href="index.html">Home</a>
+          <a href="tools.html">Tools</a>
+          <a href="blog.html">Blog</a>
+          <a href="about.html">About</a>
+        </div>
+        <div class="footer-col">
+          <h4>Tools</h4>
+          <a href="tools.html#bill-splitter">Bill Splitter</a>
+          <a href="tools.html#bmi-calculator">BMI Calculator</a>
+          <a href="tools.html#unit-converter">Unit Converter</a>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="https://twitter.com" target="_blank" rel="noopener">Twitter / X</a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener">Pinterest</a>
+          <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 DailyLift. All rights reserved.</p>
+        <div class="social-links">
+          <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener" aria-label="Pinterest">P</a>
+          <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

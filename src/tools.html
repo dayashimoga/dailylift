@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Tools — Bill Splitter, BMI Calculator, Unit Converter | DailyLift</title>
+    <meta name="description"
+        content="Free online bill splitter with tip calculator, BMI calculator with visual gauge, and unit converter — all in your browser, no sign-up needed.">
+    <meta name="keywords"
+        content="free online bill splitter with tip calculator, BMI calculator, unit converter, free tools online">
+    <meta property="og:title" content="Free Online Tools — Bill Splitter, BMI, Unit Converter">
+    <meta property="og:description" content="Split bills, calculate BMI, convert units — free, instant, no sign-up.">
+    <meta property="og:url" content="https://dailylift.site/tools.html">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "DailyLift Free Tools",
+    "url": "https://dailylift.site/tools.html",
+    "applicationCategory": "UtilityApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+    "description": "Free online calculators: Bill Splitter, BMI Calculator, and Unit Converter."
+  }
+  </script>
+</head>
+
+<body>
+    <div class="bg-glow" aria-hidden="true"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <a href="index.html" class="nav-brand"><span class="brand-icon">⚡</span> DailyLift</a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="tools.html" class="active">Tools</a>
+                <a href="blog.html">Blog</a>
+                <a href="about.html">About</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Tools Page -->
+    <section class="section" style="padding-top: calc(var(--nav-height) + var(--space-2xl));">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">100% Free</span>
+                <h1>Online <span class="gradient-text">Tools</span></h1>
+                <p>Simple, fast, and private — everything runs in your browser. No data is ever sent to a server.</p>
+            </div>
+
+            <!-- Tool Tabs -->
+            <div class="tool-tabs" role="tablist" aria-label="Tools">
+                <button class="tool-tab active" role="tab" aria-selected="true" aria-controls="panel-bill" id="tab-bill"
+                    data-tool="bill-splitter">💰 Bill Splitter</button>
+                <button class="tool-tab" role="tab" aria-selected="false" aria-controls="panel-bmi" id="tab-bmi"
+                    data-tool="bmi-calculator">⚖️ BMI Calculator</button>
+                <button class="tool-tab" role="tab" aria-selected="false" aria-controls="panel-unit" id="tab-unit"
+                    data-tool="unit-converter">🔄 Unit Converter</button>
+            </div>
+
+            <!-- Bill Splitter Panel -->
+            <div class="tool-panel active" id="panel-bill" role="tabpanel" aria-labelledby="tab-bill">
+                <div class="tool-container">
+                    <div class="glass-card">
+                        <h2 style="margin-bottom: var(--space-lg);">💰 Bill Splitter</h2>
+                        <form id="billForm" aria-label="Bill Splitter Calculator">
+                            <div class="form-group">
+                                <label for="billTotal">Total Bill Amount (₹)</label>
+                                <input type="number" id="billTotal" class="form-control" placeholder="e.g. 2500" min="0"
+                                    step="0.01" required aria-required="true">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="billPeople">Number of People</label>
+                                    <input type="number" id="billPeople" class="form-control" placeholder="e.g. 4"
+                                        min="1" step="1" value="2" required aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="billTip">Tip Percentage (%)</label>
+                                    <input type="number" id="billTip" class="form-control" placeholder="e.g. 10" min="0"
+                                        max="100" step="1" value="10">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate Split</button>
+                        </form>
+                        <div class="result-box" id="billResult" aria-live="polite">
+                            <div class="result-value" id="billPerPerson">—</div>
+                            <div class="result-label">Per Person</div>
+                            <div
+                                style="margin-top: var(--space-md); display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md);">
+                                <div>
+                                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--clr-text);"
+                                        id="billTipAmount">—</div>
+                                    <div class="result-label">Total Tip</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 1.2rem; font-weight: 700; color: var(--clr-text);"
+                                        id="billGrandTotal">—</div>
+                                    <div class="result-label">Grand Total</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BMI Calculator Panel -->
+            <div class="tool-panel" id="panel-bmi" role="tabpanel" aria-labelledby="tab-bmi">
+                <div class="tool-container">
+                    <div class="glass-card">
+                        <h2 style="margin-bottom: var(--space-lg);">⚖️ BMI Calculator</h2>
+                        <form id="bmiForm" aria-label="BMI Calculator">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="bmiWeight">Weight (kg)</label>
+                                    <input type="number" id="bmiWeight" class="form-control" placeholder="e.g. 70"
+                                        min="1" max="500" step="0.1" required aria-required="true">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bmiHeight">Height (cm)</label>
+                                    <input type="number" id="bmiHeight" class="form-control" placeholder="e.g. 175"
+                                        min="50" max="300" step="0.1" required aria-required="true">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Calculate BMI</button>
+                        </form>
+                        <div class="result-box" id="bmiResult" aria-live="polite">
+                            <div class="result-value" id="bmiValue">—</div>
+                            <div class="result-label" id="bmiCategory">Enter your details above</div>
+                            <div class="bmi-gauge" id="bmiGauge" style="display:none;">
+                                <div class="gauge-marker" id="bmiMarker"></div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--clr-text-dim);">
+                                <span>Underweight</span>
+                                <span>Normal</span>
+                                <span>Overweight</span>
+                                <span>Obese</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unit Converter Panel -->
+            <div class="tool-panel" id="panel-unit" role="tabpanel" aria-labelledby="tab-unit">
+                <div class="tool-container">
+                    <div class="glass-card">
+                        <h2 style="margin-bottom: var(--space-lg);">🔄 Unit Converter</h2>
+                        <form id="unitForm" aria-label="Unit Converter">
+                            <div class="form-group">
+                                <label for="unitCategory">Category</label>
+                                <select id="unitCategory" class="form-control">
+                                    <option value="length">Length</option>
+                                    <option value="weight">Weight</option>
+                                    <option value="temperature">Temperature</option>
+                                    <option value="volume">Volume</option>
+                                    <option value="speed">Speed</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="unitFrom">From</label>
+                                    <select id="unitFrom" class="form-control"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="unitTo">To</label>
+                                    <select id="unitTo" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="unitValue">Value</label>
+                                <input type="number" id="unitValue" class="form-control" placeholder="Enter value"
+                                    step="any" required aria-required="true">
+                            </div>
+                            <div style="display: flex; gap: var(--space-md);">
+                                <button type="submit" class="btn btn-primary" style="flex:1;">Convert</button>
+                                <button type="button" class="btn btn-secondary" id="unitSwap" aria-label="Swap units">⇄
+                                    Swap</button>
+                            </div>
+                        </form>
+                        <div class="result-box" id="unitResult" aria-live="polite">
+                            <div class="result-value" id="unitResultValue">—</div>
+                            <div class="result-label" id="unitResultLabel">Result</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Ad Slot -->
+    <div class="container" style="margin: var(--space-lg) auto;">
+        <div class="ad-slot" id="ad-tools">Ad Space — <a href="https://www.google.com/adsense" target="_blank"
+                rel="noopener">Google AdSense</a></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-brand"><span class="brand-icon">⚡</span> DailyLift</a>
+                    <p>Your daily source of motivation, free tools, and expert insights.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Pages</h4>
+                    <a href="index.html">Home</a>
+                    <a href="tools.html">Tools</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="about.html">About</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Tools</h4>
+                    <a href="tools.html#bill-splitter">Bill Splitter</a>
+                    <a href="tools.html#bmi-calculator">BMI Calculator</a>
+                    <a href="tools.html#unit-converter">Unit Converter</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://twitter.com" target="_blank" rel="noopener">Twitter / X</a>
+                    <a href="https://pinterest.com" target="_blank" rel="noopener">Pinterest</a>
+                    <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DailyLift. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">𝕏</a>
+                    <a href="https://pinterest.com" target="_blank" rel="noopener" aria-label="Pinterest">P</a>
+                    <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="tools/bill-splitter.js"></script>
+    <script src="tools/bmi-calculator.js"></script>
+    <script src="tools/unit-converter.js"></script>
+</body>
+
+</html>
