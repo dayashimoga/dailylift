@@ -51,42 +51,47 @@ We earn passive revenue based on ad impressions and clicks.
 
 ---
 
-## 🤖 3. Social Media Automation (Twitter / X)
+## 🤖 3. Social Media Automation (Mastodon / Fediverse)
 
-Our project uses GitHub Actions to randomly select a quote from `data/quotes-collection.json` and publish it to Twitter every midnight UTC.
+Our project uses GitHub Actions to randomly select a quote from `data/quotes-collection.json` and publish it to Mastodon every midnight UTC. We use Mastodon because its API is 100% free, developer-friendly, and connects to millions of users on the federated social web without arbitrary paywalls.
 
-### Attempt 1: The Twitter API (Not Recommended)
-Twitter recently restricted its Free API Tier, making basic posting highly difficult or hidden behind a "Pay-Per-Use" credit-card wall which returns `402 CreditsDepleted` errors.
-- If you have an legacy "Free" API tier (1,500 posts), you can supply `TWITTER_API_KEY`, `TWITTER_API_SECRET`, `TWITTER_ACCESS_TOKEN`, and `TWITTER_ACCESS_SECRET` to the script.
-- Because of X's aggressive monetization, **Method 2 is highly recommended.**
+### Step 1: Create a Mastodon Account
+1. Go to [mastodon.social](https://mastodon.social) (or any other Mastodon instance) and create a free account for your DailyLift brand.
+2. Confirm your email and log in.
 
-### Attempt 2: IFTTT Webhooks (Recommended & Used in Codebase)
-We bypass the Twitter API paywall completely by utilizing a free automation bridge called IFTTT.
+### Step 2: Generate an API Access Token
+1. In Mastodon, click on **Preferences** (the gear icon).
+2. On the left sidebar, click **Development**.
+3. Click the **New Application** button.
+4. Give your app a name (e.g., "DailyLift Auto-Poster").
+5. In the **Scopes** section, you only need `write:statuses` (you can uncheck everything else, or leave it default).
+6. Click **Submit** at the bottom.
+7. Click on your newly created application name.
+8. Look for the **Your access token** string. Copy it!
 
-#### Step 1: Set up the IFTTT Applet
-1. Create a free account at [IFTTT.com](https://ifttt.com).
-2. Click **Create** to build a new Applet.
-3. **If This:** Search for *Webhooks*, select *Receive a web request*, and name the Event exactly: `daily_quote`.
-4. **Then That:** Search for *Twitter*, select *Post a tweet*, and connect your automated Twitter account.
-5. In the Tweet text box, enter exactly:
-   ```text
-   ✨ Today's Quote:
+### Step 3: Add the Token to GitHub
+1. Go to your GitHub Repository -> Settings -> Secrets and variables -> Actions.
+2. Create a new repository secret:
+   - Name: `MASTODON_ACCESS_TOKEN`
+   - Secret: *(Paste your token here)*
+3. Create a second repository secret:
+   - Name: `MASTODON_INSTANCE_URL`
+   - Secret: `mastodon.social` *(Change this if you registered on a different server)*
 
-   "{{Value1}}"
-   — {{Value2}}
+### Step 4: Verify Automation
+Your `post-social.js` script is natively programmed to find these variables.
+To test it immediately, go to your GitHub repository -> Actions tab -> **Daily Quote Update** -> **Run workflow**. If successful, the GitHub runner will show a `200 Success` code, and the quote will instantly appear on your Mastodon profile.
 
-   🌐 More at {{Value3}}
+---
 
-   #motivation #quotes #dailyquotes #inspiration
-   ```
+## 📈 4. Traffic Analytics (Google Analytics GA4)
 
-#### Step 2: Connect the Webhook to GitHub
-1. Go to [maker.ifttt.com](https://maker.ifttt.com) and click **Settings**.
-2. Locate the URL. Your Secret Key is the string at the very end (after `/use/`).
-3. Copy the Key.
-4. Go to your GitHub Repository -> Settings -> Secrets and variables -> Actions.
-5. Create a new repository secret named `IFTTT_WEBHOOK_KEY` and paste your key.
+To measure how much traffic your site and automated posts are generating, Google Analytics is natively integrated into your HTML.
 
-#### Step 3: Verify Automation
-Your `post-social.js` script is natively programmed to find the `IFTTT_WEBHOOK_KEY` environment variable. 
-To test it immediately, go to your GitHub repository -> Actions tab -> **Daily Quote Update** -> **Run workflow**. If successful, the GitHub runner will show a `200 Success` code, and the quote will instantly appear on your Twitter timeline!
+1. Sign up for [Google Analytics](https://analytics.google.com/).
+2. Create a new Property for your domain (`quickutils.top`).
+3. Set up a **Web Data Stream**.
+4. Once created, Google will furnish you with a **Measurement ID** (it looks like `G-XXXXXXXXXX`).
+5. Open your local repository, and perform a global Find & Replace across all `.html` files in the `/src` folder.
+6. Replace `G-XXXX` with your actual Measurement ID.
+7. Merge and push to GitHub. Netlify will rebuild the site, and live tracking will commence immediately.

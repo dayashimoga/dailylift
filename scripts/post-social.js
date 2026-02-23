@@ -1,6 +1,6 @@
 /**
  * post-social.js — Posts daily quote to social media
- * Uses IFTTT Webhook native integration
+ * Uses Mastodon API native integration (100% Free)
  */
 
 const fs = require('fs');
@@ -10,8 +10,9 @@ const https = require('https');
 const CURRENT_FILE = path.join(__dirname, '..', 'data', 'current-quote.json');
 const SITE_URL = process.env.SITE_URL || 'https://dailylift.site';
 
-// IFTTT Webhook Key
-const IFTTT_KEY = process.env.IFTTT_WEBHOOK_KEY || '';
+// Mastodon Credentials
+const MASTODON_TOKEN = process.env.MASTODON_ACCESS_TOKEN || '';
+const MASTODON_INSTANCE = process.env.MASTODON_INSTANCE_URL || 'mastodon.social';
 
 async function main() {
     console.log('📱 Social media posting...');
@@ -24,24 +25,28 @@ async function main() {
         process.exit(1);
     }
 
-    console.log('📝 Prepared quote for IFTTT:');
-    console.log(`"${quote.text}" — ${quote.author}`);
+    const postContent = `✨ Today's Quote:\n\n"${quote.text}"\n— ${quote.author}\n\n🌐 More at ${SITE_URL}\n\n#motivation #quotes #dailyquotes #inspiration #dailylift`;
+
+    console.log('📝 Prepared quote for Mastodon:');
+    console.log(postContent);
     console.log('');
 
-    if (IFTTT_KEY) {
-        console.log('🔗 Triggering IFTTT webhook for Twitter posting...');
+    if (MASTODON_TOKEN) {
+        console.log(`🔗 Triggering Mastodon API posting to ${MASTODON_INSTANCE}...`);
         try {
+            // Remove protocol if user included it in the variable
+            const hostname = MASTODON_INSTANCE.replace(/^https?:\/\//, '').replace(/\/$/, '');
             const postData = JSON.stringify({
-                value1: quote.text,
-                value2: quote.author,
-                value3: SITE_URL
+                status: postContent,
+                visibility: 'public'
             });
 
             const options = {
-                hostname: 'maker.ifttt.com',
-                path: `/trigger/daily_quote/with/key/${IFTTT_KEY}`,
+                hostname: hostname,
+                path: `/api/v1/statuses`,
                 method: 'POST',
                 headers: {
+                    'Authorization': `Bearer ${MASTODON_TOKEN}`,
                     'Content-Type': 'application/json',
                     'Content-Length': Buffer.byteLength(postData)
                 }
@@ -52,10 +57,10 @@ async function main() {
                     res.on('data', () => { });
                     res.on('end', () => {
                         if (res.statusCode >= 200 && res.statusCode < 300) {
-                            console.log('✅ IFTTT webhook triggered successfully (status:', res.statusCode + ')');
+                            console.log('✅ Mastodon API posted successfully (status:', res.statusCode + ')');
                             resolve();
                         } else {
-                            console.error('❌ IFTTT webhook returned non-success status:', res.statusCode);
+                            console.error('❌ Mastodon API returned non-success status:', res.statusCode);
                             reject(new Error(`HTTP Status ${res.statusCode}`));
                         }
                     });
@@ -65,10 +70,10 @@ async function main() {
                 req.end();
             });
         } catch (e) {
-            console.error('❌ IFTTT webhook failed:', e.message);
+            console.error('❌ Mastodon API post failed:', e.message);
         }
     } else {
-        console.log('ℹ️ IFTTT_WEBHOOK_KEY not set — skipping social media post');
+        console.log('ℹ️ MASTODON_ACCESS_TOKEN not set — skipping social media post');
     }
 
     console.log('\n✨ Social media automation complete.');
