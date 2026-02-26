@@ -10,3 +10,8 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Temporary scripts and testing output
+test_output.txt
+bulk-quotes.js
+.docker-volumes/

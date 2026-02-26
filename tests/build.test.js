@@ -16,7 +16,11 @@ describe('Build Script', () => {
     beforeAll(() => {
         // Clean dist before build
         if (fs.existsSync(DIST)) {
-            fs.rmSync(DIST, { recursive: true });
+            try {
+                fs.rmSync(DIST, { recursive: true, force: true });
+            } catch (e) {
+                // ignore EBUSY in docker mounted volumes
+            }
         }
         // Run build
         require('../scripts/build.js');
@@ -93,7 +97,9 @@ describe('Build Script', () => {
     describe('Branch Coverage Edge Cases', () => {
         test('handles cleanDir when directory does not exist', () => {
             // Delete dist first
-            fs.rmSync(DIST, { recursive: true, force: true });
+            try {
+                fs.rmSync(DIST, { recursive: true, force: true });
+            } catch (e) { }
 
             // Re-run the build which will call cleanDir on non-existent dir
             jest.resetModules();

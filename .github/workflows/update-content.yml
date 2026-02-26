@@ -35,9 +35,3 @@ jobs:
           SITE_URL: "https://quickutils.top"
         continue-on-error: true
 
-      - name: Commit & Push Changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/
-          git diff --staged --quiet || (git commit -m "📝 Daily quote update — $(date -u +%Y-%m-%d)" && git push)

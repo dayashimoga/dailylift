@@ -33,19 +33,22 @@
     if (textEls.length === 0) return;
 
     try {
-      const res = await fetch('data/current-quote.json');
-      if (!res.ok) throw new Error('Quote not found');
-      const data = await res.json();
+      const res = await fetch('data/quotes-collection.json');
+      if (!res.ok) throw new Error('Quotes collection not found');
+      const quotes = await res.json();
+
+      const today = new Date();
+      // Deterministically pick a quote based on days since epoch
+      const daysSinceEpoch = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+      const quoteIndex = daysSinceEpoch % quotes.length;
+      const data = quotes[quoteIndex];
 
       textEls.forEach(el => el.textContent = `"${data.text}"`);
       authorEls.forEach(el => el.textContent = `— ${data.author}`);
       dateEls.forEach(el => {
-        if (data.date) {
-          const d = new Date(data.date);
-          el.textContent = d.toLocaleDateString('en-IN', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-          });
-        }
+        el.textContent = today.toLocaleDateString('en-IN', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
       });
     } catch (e) {
       // Fallback quote

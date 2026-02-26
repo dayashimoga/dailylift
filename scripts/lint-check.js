@@ -79,10 +79,10 @@ function lintJs(file) {
     if (content.includes('console.log') && !file.includes('scripts') && !file.includes('test')) {
         // Allow console.log in scripts and tests, flag in frontend JS
     }
-    if (content.includes('eval(')) {
+    if (content.includes('eval(') && !file.includes('lint-check.js')) {
         log('ERROR', file, 'Use of eval() detected — security risk');
     }
-    if (content.includes('document.write(')) {
+    if (content.includes('document.write(') && !file.includes('lint-check.js')) {
         log('ERROR', file, 'Use of document.write() detected');
     }
     // Check for 'var' usage (prefer let/const)
