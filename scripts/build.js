@@ -223,6 +223,19 @@ function build() {
   copyRecursive(SRC, DIST);
   console.log('📁 Copied src/ → dist/');
 
+  // Copy CSS/Images explicitly
+  copyRecursive(path.join(__dirname, '../src/css'), path.join(DIST, 'css'));
+  if (fs.existsSync(path.join(__dirname, '../src/images'))) {
+    copyRecursive(path.join(__dirname, '../src/images'), path.join(DIST, 'images'));
+  }
+  console.log('📁 Copied src/css/ and src/images/ → dist/');
+
+  // Copy ads.txt
+  if (fs.existsSync(path.join(__dirname, '../src/ads.txt'))) {
+    fs.copyFileSync(path.join(__dirname, '../src/ads.txt'), path.join(DIST, 'ads.txt'));
+    console.log('📑 Copied ads.txt to root');
+  }
+
   // 3. Copy data → dist/data
   copyRecursive(DATA, path.join(DIST, 'data'));
   console.log('📊 Copied data/ → dist/data/');

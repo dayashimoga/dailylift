@@ -62,6 +62,16 @@ describe('HTML Pages', () => {
             expect(ogDesc).toBeTruthy();
         });
 
+        test('has Open Graph image', () => {
+            const ogImage = $('meta[property="og:image"]').attr('content');
+            expect(ogImage).toContain('og-image.png');
+        });
+
+        test('has Twitter Card image', () => {
+            const twImage = $('meta[name="twitter:image"]').attr('content');
+            expect(twImage).toContain('og-image.png');
+        });
+
         // Navigation Tests
         test('has navigation navbar', () => {
             expect($('nav.navbar').length).toBe(1);
@@ -317,5 +327,19 @@ describe('HTML Pages', () => {
             const raw = fs.readFileSync(path.join(SRC, 'blog.html'), 'utf-8');
             expect(raw).toContain('data-ad-slot="8571762456"');
         });
+    });
+});
+
+describe('Root Files Verification', () => {
+    test('ads.txt exists in src directory', () => {
+        const adsTxtPath = path.join(SRC, 'ads.txt');
+        expect(fs.existsSync(adsTxtPath)).toBe(true);
+        const content = fs.readFileSync(adsTxtPath, 'utf-8');
+        expect(content).toContain('google.com, pub-5193703345853377, DIRECT, f08c47fec0942fa0');
+    });
+
+    test('og-image.png exists in images directory', () => {
+        const imgPath = path.join(SRC, 'images', 'og-image.png');
+        expect(fs.existsSync(imgPath)).toBe(true);
     });
 });
