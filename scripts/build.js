@@ -96,6 +96,8 @@ function processBlogPosts() {
     "author": {"@type": "Organization", "name": "DailyLift"}
   }
   </script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5193703345853377" crossorigin="anonymous"></script>
 </head>
 <body>
   <div class="bg-glow" aria-hidden="true"></div>
@@ -132,8 +134,22 @@ function processBlogPosts() {
     </div>
   </article>
 
+  <!-- Ad Slot -->
   <div class="container" style="margin: var(--space-lg) auto;">
-    <div class="ad-slot">Ad Space — <a href="https://www.google.com/adsense" target="_blank" rel="noopener">Google AdSense</a></div>
+    <div class="ad-slot">
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5193703345853377"
+           crossorigin="anonymous"></script>
+      <!-- DailyLift Blog Posts -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-5193703345853377"
+           data-ad-slot="8571762456"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
   </div>
 
   <footer class="footer">

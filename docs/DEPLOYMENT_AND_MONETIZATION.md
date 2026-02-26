@@ -1,97 +1,118 @@
 # DailyLift: Deployment, Monetization, and Automation Guide
 
-This document serves as the ultimate reference for configuring the infrastructure, revenue streams, and automated social media presence of the DailyLift application. If you are setting up the project from scratch or transferring ownership, follow these steps exactly.
+This document is the **Comprehensive Step-by-Step Configuration Guide** for the DailyLift application. It details exactly how to configure every third-party tool, automation script, and monetization platform integrated into the repository.
 
 ---
 
-## 🏗️ 1. Hosting & Domain Setup
+## 1. Hosting & Domain Setup (Netlify)
 
-### 1.1 Purchasing the Domain
-1. Purchase a domain name from a registrar like **Porkbun**, Namecheap, or GoDaddy (e.g., `quickutils.top`).
-2. Do not set up DNS records at the registrar yet. We will transfer DNS management entirely to Netlify.
+DailyLift uses a Zero-Cost Jamstack Architecture. It is hosted on Netlify, which serves the static HTML/CSS/JS files globally for free.
 
-### 1.2 Deploying on Netlify
-1. Log into [Netlify](https://app.netlify.com/) and click **Add new site** -> **Import an existing project**.
-2. Connect your GitHub account and select your `dailylift` repository.
-3. Use the following build settings:
-   - **Base directory:** *(leave blank)*
-   - **Build command:** `npm run build`
-   - **Publish directory:** `dist`
-4. Click **Deploy Site**. Netlify will build the HTML and publish it to a temporary `.netlify.app` URL.
-
-### 1.3 Configuring Custom Domain & DNS
-1. In the Netlify dashboard for your site, go to **Domain management**.
-2. Click **Add custom domain** and type your purchased domain (`quickutils.top`).
-3. Netlify will prompt you to set up Netlify DNS. Proceed through the wizard to generate the 4 custom Name Servers (e.g., `dns1.p01.nsone.net`).
-4. Log into your domain registrar (Porkbun) and locate the **Name Servers (NS)** settings for your domain.
-5. Replace the default name servers with the 4 Netlify name servers.
-6. **Wait up to 24 hours.** Global DNS propagation takes time.
-7. Once propagated, Netlify will automatically provision a free Let's Encrypt **SSL Certificate**, changing your site from "Not Secure" to a secure padlock.
+### Step-by-Step Configuration:
+1. **Purchase a Domain:** Buy a domain name (e.g., `quickutils.top`) from a registrar (Namecheap, Porkbun, GoDaddy).
+2. **Deploy on Netlify:**
+   - Log into [Netlify](https://app.netlify.com/).
+   - Click **Add new site** > **Import an existing project**.
+   - Connect your GitHub account and select your `dailylift` repository.
+   - Configure the Build settings:
+     - **Build command:** `npm run build`
+     - **Publish directory:** `dist`
+   - Click **Deploy Site**.
+3. **Configure the Custom Domain:**
+   - In Netlify, go to **Domain management** > **Add custom domain**.
+   - Enter your domain name.
+   - Netlify will provide 4 custom **Name Servers** (e.g., `dns1.p01.nsone.net`).
+   - Log into your domain registrar and replace your domain's default Name Servers with the 4 Netlify servers.
+4. **SSL Certificate:** Once DNS propagation finishes (can take 24 hours), Netlify automatically provisions a free Let's Encrypt SSL certificate.
 
 ---
 
-## 💰 2. Monetization Setup
+## 2. Traffic Analytics (Google Analytics 4)
 
-### 2.1 Amazon Associates (Affiliate Links)
-We monetize the recommended books section by earning a commission on clicks and purchases.
-1. Sign up for [Amazon Associates](https://affiliate-program.amazon.com/).
-2. Fill out your tax and payment information.
-3. Locate your **Store ID / Tracking ID** (e.g., `quickutils-21`).
-4. In your codebase, open `src/index.html` and locate the book recommendations section.
-5. Search Amazon for the books (*Atomic Habits*, *Deep Work*, etc.), generate affiliate links using the Amazon SiteStripe toolbar, and replace the `href=""` attributes in the HTML.
+Google Analytics (GA4) tracks your website visitors, page views, and user behavior.
 
-### 2.2 Google AdSense (Banner Ads)
-We earn passive revenue based on ad impressions and clicks.
-1. Go to [Google AdSense](https://adsense.google.com/start/) and sign in with your Google account.
-2. Add your custom domain (`https://quickutils.top`) under the "Sites" tab.
-3. Google will ask you to verify ownership. You can do this by dropping a `<meta name="google-adsense-account">` tag into the `<head>` of your `src/index.html`.
-4. Locate your **Publisher ID** (e.g., `ca-pub-1234567890`).
-5. In `src/index.html`, uncomment the Google AdSense script in the `<head>` and replace `YOUR_PUBLISHER_ID` with your actual ID.
-6. AdSense placeholders (`<ins class="adsbygoogle">`) exist throughout the layout. They will remain blank until Google officially approves your site (takes 3 to 14 days).
+### Step-by-Step Configuration:
+1. **Create an Account:** Go to [Google Analytics](https://analytics.google.com/) and sign in.
+2. **Create a Property:** Set up a new property using your website URL.
+3. **Get the Measurement ID:** Create a **Web Data Stream** for your site. Once created, copy the **Measurement ID** (format: `G-XXXXXXXXXX`).
+4. **Integration in DailyLift:**
+   - Open all HTML files in `src/` (`index.html`, `tools.html`, `blog.html`, `about.html`) and the builder template (`scripts/build.js`).
+   - Locate the Google Analytics `<script>` tag in the `<head>`.
+   - Replace the placeholder `G-QPDP38ZCCV` with your actual Measurement ID.
+   - Commit and push the changes.
 
 ---
 
-## 🤖 3. Social Media Automation (Mastodon / Fediverse)
+## 3. Passive Income (Google AdSense)
 
-Our project uses GitHub Actions to randomly select a quote from `data/quotes-collection.json` and publish it to Mastodon every midnight UTC. We use Mastodon because its API is 100% free, developer-friendly, and connects to millions of users on the federated social web without arbitrary paywalls.
+Google AdSense injects contextual banner ads into the website.
 
-### Step 1: Create a Mastodon Account
-1. Go to [mastodon.social](https://mastodon.social) (or any other Mastodon instance) and create a free account for your DailyLift brand.
-2. Confirm your email and log in.
-
-### Step 2: Generate an API Access Token
-1. In Mastodon, click on **Preferences** (the gear icon).
-2. On the left sidebar, click **Development**.
-3. Click the **New Application** button.
-4. Give your app a name (e.g., "DailyLift Auto-Poster").
-5. In the **Scopes** section, you only need `write:statuses` (you can uncheck everything else, or leave it default).
-6. Click **Submit** at the bottom.
-7. Click on your newly created application name.
-8. Look for the **Your access token** string. Copy it!
-
-### Step 3: Add the Token to GitHub
-1. Go to your GitHub Repository -> Settings -> Secrets and variables -> Actions.
-2. Create a new repository secret:
-   - Name: `MASTODON_ACCESS_TOKEN`
-   - Secret: *(Paste your token here)*
-3. Create a second repository secret:
-   - Name: `MASTODON_INSTANCE_URL`
-   - Secret: `mastodon.social` *(Change this if you registered on a different server)*
-
-### Step 4: Verify Automation
-Your `post-social.js` script is natively programmed to find these variables.
-To test it immediately, go to your GitHub repository -> Actions tab -> **Daily Quote Update** -> **Run workflow**. If successful, the GitHub runner will show a `200 Success` code, and the quote will instantly appear on your Mastodon profile.
+### Step-by-Step Configuration:
+1. **Apply for AdSense:** Go to [Google AdSense](https://adsense.google.com/start/) and sign up.
+2. **Add Your Site:** In the AdSense dashboard, navigate to **Sites** and add your domain.
+3. **Get Your Publisher ID:** Note your Publisher ID (e.g., `ca-pub-5193703345853377`). This is already integrated into the `adsbygoogle.js` script tag in the `<head>` of all HTML pages.
+4. **Generate Ad Units for Tracking:**
+   - In AdSense, go to **Ads** > **By ad unit** > **Display ads**.
+   - Create distinct ad units so you can track revenue per page type (e.g., "Homepage Banner", "Tools Page", "Blog Posts").
+   - Click **Create** and copy the `data-ad-slot` number (e.g., `2246027256`) from the generated code snippet.
+5. **Integration in DailyLift:**
+   - Open all `.html` files and `scripts/build.js`.
+   - Locate the `<ins class="adsbygoogle">` tags.
+   - Replace the `data-ad-slot` value with the corresponding slot ID you generated. Note: The codebase currently has specific IDs integrated (`2246027256` for index, `2573330311` for tools, `8571762456` for blog, `1479740496` for about). Update these with your own if they change.
+6. **Wait for Approval:** Google takes 3–14 days to review and approve the site. Ads will remain blank until approved.
 
 ---
 
-## 📈 4. Traffic Analytics (Google Analytics GA4)
+## 4. Affiliate Income (Amazon Associates)
 
-To measure how much traffic your site and automated posts are generating, Google Analytics is natively integrated into your HTML.
+Amazon Associates allows you to earn commissions when users click your links and buy recommended products (like books).
 
-1. Sign up for [Google Analytics](https://analytics.google.com/).
-2. Create a new Property for your domain (`quickutils.top`).
-3. Set up a **Web Data Stream**.
-4. Once created, Google will furnish you with a **Measurement ID** (it looks like `G-XXXXXXXXXX`).
-5. Open your local repository, and perform a global Find & Replace across all `.html` files in the `/src` folder.
-6. Replace `G-XXXX` with your actual Measurement ID.
-7. Merge and push to GitHub. Netlify will rebuild the site, and live tracking will commence immediately.
+### Step-by-Step Configuration:
+1. **Sign Up:** Create a free account at the [Amazon Associates Central](https://affiliate-program.amazon.com/).
+2. **Get Tracking ID:** Note your Store/Tracking ID (e.g., `quickutils-21`).
+3. **Generate Affiliate Links:**
+   - Search for the product (e.g., *Atomic Habits*) on Amazon.
+   - Use the **Amazon SiteStripe** toolbar at the top of the page to generate a "Text" link.
+4. **Integration in DailyLift:**
+   - Open `src/index.html`.
+   - Locate the **Books We Recommend** section.
+   - Replace the standard book `href` links with your generated Amazon affiliate links.
+
+---
+
+## 5. Digital Product Sales (Gumroad)
+
+Gumroad is used to sell digital products directly to your audience (e.g., the PDF eBook of 500+ Quotes).
+
+### Step-by-Step Configuration:
+1. **Create an Account:** Sign up at [Gumroad](https://gumroad.com/).
+2. **Create a Product:**
+   - Go to **Products** > **New Product**.
+   - Select "Digital Product".
+   - Set the Price (you can set it to $0+ to allow "Pay what you want", offering it for free to build an email list).
+   - Upload your PDF file (e.g., `DailyLift-500-Quotes.pdf`).
+3. **Get the Checkout Link:** Publish the product and copy the share URL (e.g., `https://yourname.gumroad.com/l/quotes`).
+4. **Integration in DailyLift:**
+   - Open `src/index.html`.
+   - Locate the download button: `<a href="#" id="downloadQuotePdf">📄 Download 500+ Quotes PDF (Free)</a>`.
+   - Replace `#` with your Gumroad product URL. (Optionally, use the Gumroad overlay script for an in-page checkout).
+
+---
+
+## 6. Social Media Automation (Mastodon / Fediverse)
+
+DailyLift automatically posts a random daily quote to a Mastodon social profile every day at midnight UTC, powered entirely by a free GitHub Action.
+
+### Step-by-Step Configuration:
+1. **Create a Mastodon Account:** Go to a server like [mastodon.social](https://mastodon.social) and create your brand account.
+2. **Generate API Token:**
+   - In Mastodon, go to **Preferences** (Gear Icon) > **Development** > **New Application**.
+   - Name the app (e.g., "DailyLift Bot").
+   - Under Scopes, you only need to check `write:statuses`.
+   - Click **Submit**, then click on the app name to view the **Access Token**. Copy this token.
+3. **Add Secrets to GitHub:**
+   - Go to your GitHub repository on github.com.
+   - Navigate to **Settings** > **Secrets and variables** > **Actions** > **New repository secret**.
+   - Create `MASTODON_ACCESS_TOKEN` and paste your token.
+   - Create `MASTODON_INSTANCE_URL` and set it to your server (e.g., `mastodon.social`).
+4. **How It Works:** The GitHub Action (`.github/workflows/update-content.yml`) runs daily. It seamlessly fetches a quote from ZenQuotes via `scripts/fetch-quote.js` and securely posts it to Mastodon using `scripts/post-social.js`. It does not commit code back to the repository, meaning zero Netlify build minutes are consumed.

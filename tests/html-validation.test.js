@@ -194,6 +194,18 @@ describe('HTML Pages', () => {
         test('hero has CTA buttons', () => {
             expect($('.hero-buttons .btn').length).toBeGreaterThanOrEqual(2);
         });
+
+        test('has Google AdSense script integration', () => {
+            const script = $('script[src*="adsbygoogle.js"]');
+            expect(script.length).toBeGreaterThan(0);
+            const src = script.attr('src');
+            expect(src).toContain('ca-pub-5193703345853377');
+        });
+
+        test('uses page-specific AdSlot ID', () => {
+            const raw = fs.readFileSync(path.join(SRC, 'index.html'), 'utf-8');
+            expect(raw).toContain('data-ad-slot="2246027256"');
+        });
     });
 
     describe('tools.html specifics', () => {
@@ -261,6 +273,11 @@ describe('HTML Pages', () => {
             expect(scripts.some(s => s.includes('bmi-calculator'))).toBe(true);
             expect(scripts.some(s => s.includes('unit-converter'))).toBe(true);
         });
+
+        test('uses page-specific AdSlot ID', () => {
+            const raw = fs.readFileSync(path.join(SRC, 'tools.html'), 'utf-8');
+            expect(raw).toContain('data-ad-slot="2573330311"');
+        });
     });
 
     describe('about.html specifics', () => {
@@ -280,6 +297,25 @@ describe('HTML Pages', () => {
             const text = $('body').text();
             expect(text).toContain('Frontend');
             expect(text).toContain('GitHub Actions');
+        });
+
+        test('uses page-specific AdSlot ID', () => {
+            const raw = fs.readFileSync(path.join(SRC, 'about.html'), 'utf-8');
+            expect(raw).toContain('data-ad-slot="1479740496"');
+        });
+    });
+
+    describe('blog.html specifics', () => {
+        let $;
+        beforeAll(() => { $ = loadPage('blog.html'); });
+
+        test('has blog grid', () => {
+            expect($('.blog-grid').length).toBe(1);
+        });
+
+        test('uses page-specific AdSlot ID', () => {
+            const raw = fs.readFileSync(path.join(SRC, 'blog.html'), 'utf-8');
+            expect(raw).toContain('data-ad-slot="8571762456"');
         });
     });
 });
