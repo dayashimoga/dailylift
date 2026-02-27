@@ -55,7 +55,7 @@ describe('Generate Sitemap', () => {
     test('homepage has priority 1.0', () => {
         const content = fs.readFileSync(path.join(DIST, 'sitemap.xml'), 'utf-8');
         // Find the index.html URL entry
-        const indexPattern = /<url>\s*<loc>[^<]*dailylift\.site\/<\/loc>[\s\S]*?<priority>1\.0<\/priority>/;
+        const indexPattern = /<url>\s*<loc>[^<]*quickutils\.top\/<\/loc>[\s\S]*?<priority>1\.0<\/priority>/;
         expect(content).toMatch(indexPattern);
     });
 

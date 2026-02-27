@@ -9,6 +9,8 @@ const path = require('path');
 const { marked } = require('marked');
 const matter = require('gray-matter');
 
+const SITE_URL = process.env.SITE_URL || 'https://quickutils.top';
+
 const ROOT = path.join(__dirname, '..');
 const SRC = path.join(ROOT, 'src');
 const DIST = path.join(ROOT, 'dist');
@@ -82,8 +84,10 @@ function processBlogPosts() {
   <meta property="og:type" content="article">
   <meta property="og:title" content="{{title}}">
   <meta property="og:description" content="{{description}}">
-  <meta property="og:url" content="https://dailylift.site/blog/{{slug}}.html">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="${SITE_URL}/blog/{{slug}}.html">
+  <meta property="og:image" content="${SITE_URL}/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="${SITE_URL}/images/og-image.png">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
   <link rel="stylesheet" href="../css/style.css">
   <script type="application/ld+json">
@@ -250,11 +254,22 @@ function build() {
   console.log(`📑 Generated blog-index.json (${blogIndex.length} posts)`);
 
   // 6. Generate robots.txt
-  const robotsTxt = `User-agent: *
-Allow: /
+  let robotsTxt = '';
+  if (fs.existsSync(path.join(SRC, 'robots.txt'))) {
+    robotsTxt = fs.readFileSync(path.join(SRC, 'robots.txt'), 'utf-8');
+  } else {
+    robotsTxt = `User-agent: *\nAllow: /\n\nUser-agent: Mediapartners-Google\nAllow: /\n`;
+  }
 
-Sitemap: https://dailylift.site/sitemap.xml`;
-  fs.writeFileSync(path.join(DIST, 'robots.txt'), robotsTxt);
+  // Ensure sitemap is appended
+  if (!robotsTxt.includes('Sitemap:')) {
+    robotsTxt += `\nSitemap: ${SITE_URL}/sitemap.xml`;
+  } else {
+    // Replace old sitemap if it exists
+    robotsTxt = robotsTxt.replace(/Sitemap: .*/, `Sitemap: ${SITE_URL}/sitemap.xml`);
+  }
+
+  fs.writeFileSync(path.join(DIST, 'robots.txt'), robotsTxt.trim());
   console.log('🤖 Generated robots.txt');
 
   // 7. Generate sitemap

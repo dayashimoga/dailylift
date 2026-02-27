@@ -92,67 +92,89 @@ describe('Build Script', () => {
         test('generates sitemap.xml in dist/', () => {
             expect(fs.existsSync(path.join(DIST, 'sitemap.xml'))).toBe(true);
         });
+
+        test('robots.txt allows Mediapartners-Google', () => {
+            const content = fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf-8');
+            expect(content).toContain('User-agent: Mediapartners-Google');
+            expect(content).toContain('Allow: /');
+        });
+
+        test('robots.txt points to correct sitemap domain', () => {
+            const content = fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf-8');
+            expect(content).toContain('Sitemap: https://quickutils.top/sitemap.xml');
+        });
     });
 
-    describe('Branch Coverage Edge Cases', () => {
-        test('handles cleanDir when directory does not exist', () => {
-            // Delete dist first
-            try {
-                fs.rmSync(DIST, { recursive: true, force: true });
-            } catch (e) { }
-
-            // Re-run the build which will call cleanDir on non-existent dir
-            jest.resetModules();
-            require('../scripts/build.js');
-            expect(fs.existsSync(DIST)).toBe(true);
+    describe('Blog Post Metadata', () => {
+        test('generated blog posts have correct OG image tags', () => {
+            const blogPosts = fs.readdirSync(path.join(DIST, 'blog')).filter(f => f.endsWith('.html'));
+            if (blogPosts.length > 0) {
+                const content = fs.readFileSync(path.join(DIST, 'blog', blogPosts[0]), 'utf-8');
+                expect(content).toContain('<meta property="og:image" content="https://quickutils.top/images/og-image.png">');
+                expect(content).toContain('<meta name="twitter:image" content="https://quickutils.top/images/og-image.png">');
+                expect(content).toContain('twitter:card" content="summary_large_image"');
+            }
         });
 
-        test('handles missing blog content directory gracefully', () => {
-            const originalExists = fs.existsSync;
-            const spy = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
-                if (p === CONTENT) return false;
-                return originalExists(p);
+        describe('Branch Coverage Edge Cases', () => {
+            test('handles cleanDir when directory does not exist', () => {
+                // Delete dist first
+                try {
+                    fs.rmSync(DIST, { recursive: true, force: true });
+                } catch (e) { }
+
+                // Re-run the build which will call cleanDir on non-existent dir
+                jest.resetModules();
+                require('../scripts/build.js');
+                expect(fs.existsSync(DIST)).toBe(true);
             });
 
-            // Run build block
-            jest.resetModules();
-            require('../scripts/build.js');
+            test('handles missing blog content directory gracefully', () => {
+                const originalExists = fs.existsSync;
+                const spy = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+                    if (p === CONTENT) return false;
+                    return originalExists(p);
+                });
 
-            // Expect empty blog-index.json since no files exist
-            const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
-            expect(blogIndex.length).toBe(0);
+                // Run build block
+                jest.resetModules();
+                require('../scripts/build.js');
 
-            // Restore
-            spy.mockRestore();
-        });
+                // Expect empty blog-index.json since no files exist
+                const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
+                expect(blogIndex.length).toBe(0);
 
-        test('handles blog posts with missing frontmatter fields', () => {
-            // Create a temporary markdown file with empty frontmatter
-            const tempMdFile = path.join(CONTENT, 'temp-missing-frontmatter.md');
-            fs.writeFileSync(tempMdFile, '---\n---\n# Missing frontmatter');
+                // Restore
+                spy.mockRestore();
+            });
 
-            // Re-run build
-            jest.resetModules();
-            require('../scripts/build.js');
+            test('handles blog posts with missing frontmatter fields', () => {
+                // Create a temporary markdown file with empty frontmatter
+                const tempMdFile = path.join(CONTENT, 'temp-missing-frontmatter.md');
+                fs.writeFileSync(tempMdFile, '---\n---\n# Missing frontmatter');
 
-            const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
-            const entry = blogIndex.find(e => e.slug === 'temp-missing-frontmatter');
+                // Re-run build
+                jest.resetModules();
+                require('../scripts/build.js');
 
-            expect(entry.title).toBe('temp-missing-frontmatter'); // Fallback to slug
-            expect(entry.description).toBe(''); // Fallback to empty string
-            expect(entry.date).toBe(''); // Fallback
-            expect(entry.emoji).toBe('📝'); // Fallback to pencil
-            expect(entry.hue).toBe(265); // Fallback to 265
+                const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
+                const entry = blogIndex.find(e => e.slug === 'temp-missing-frontmatter');
 
-            // Cleanup
-            fs.unlinkSync(tempMdFile);
-            jest.resetModules();
-            require('../scripts/build.js');
-        });
+                expect(entry.title).toBe('temp-missing-frontmatter'); // Fallback to slug
+                expect(entry.description).toBe(''); // Fallback to empty string
+                expect(entry.date).toBe(''); // Fallback
+                expect(entry.emoji).toBe('📝'); // Fallback to pencil
+                expect(entry.hue).toBe(265); // Fallback to 265
 
-        test('handles copyRecursive with missing source directory', () => {
-            // Because copyRecursive exists, lets try copying a fake dir
-            const tempScript = `
+                // Cleanup
+                fs.unlinkSync(tempMdFile);
+                jest.resetModules();
+                require('../scripts/build.js');
+            });
+
+            test('handles copyRecursive with missing source directory', () => {
+                // Because copyRecursive exists, lets try copying a fake dir
+                const tempScript = `
                 const fs = require('fs');
                 const path = require('path');
                 function copyRecursive(src, dest) {
@@ -170,9 +192,9 @@ describe('Build Script', () => {
                 }
                 copyRecursive('fake_source_dir_that_does_not_exist_123', 'fake_dest_123');
             `;
-            fs.writeFileSync(path.join(__dirname, 'temp-test.js'), tempScript);
-            expect(() => require('./temp-test.js')).not.toThrow();
-            fs.unlinkSync(path.join(__dirname, 'temp-test.js'));
+                fs.writeFileSync(path.join(__dirname, 'temp-test.js'), tempScript);
+                expect(() => require('./temp-test.js')).not.toThrow();
+                fs.unlinkSync(path.join(__dirname, 'temp-test.js'));
+            });
         });
     });
-});

@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const DIST_DIR = path.join(__dirname, '..', 'dist');
-const SITE_URL = 'https://dailylift.site';
+const SITE_URL = process.env.SITE_URL || 'https://quickutils.top';
 
 function findHtmlFiles(dir, base = '') {
     const files = [];
@@ -52,10 +52,11 @@ function main() {
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.join('\n')}
-</urlset>`;
+</urlset>`.trim();
 
-    fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemap);
-    console.log(`✅ Generated sitemap.xml with ${urls.length} URLs`);
+    const outputPath = path.join(DIST_DIR, 'sitemap.xml');
+    fs.writeFileSync(outputPath, sitemap);
+    console.log(`✅ Generated sitemap.xml with ${urls.length} URLs at ${outputPath}`);
 }
 
 main();

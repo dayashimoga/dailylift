@@ -162,7 +162,7 @@
     page.drawText('Curated by DailyLift', {
       x: 50, y: 710, size: 14, font: font, color: rgb(0.4, 0.4, 0.5)
     });
-    page.drawText('dailylift.site', {
+    page.drawText('quickutils.top', {
       x: 50, y: 680, size: 12, font: font, color: rgb(0.3, 0.5, 0.8)
     });
 

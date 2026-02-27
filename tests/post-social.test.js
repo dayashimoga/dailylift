@@ -32,7 +32,7 @@ describe('Post Social Script', () => {
     describe('Tweet Formatting', () => {
         test('tweet format includes quote text', () => {
             const quote = { text: 'Test quote', author: 'Test Author' };
-            const siteUrl = 'https://dailylift.site';
+            const siteUrl = 'https://quickutils.top';
             const tweet = `✨ Today's Quote:\n\n"${quote.text}"\n— ${quote.author}\n\n🌐 More at ${siteUrl}\n\n#motivation #quotes #dailyquotes #inspiration`;
             expect(tweet).toContain(quote.text);
             expect(tweet).toContain(quote.author);
@@ -40,7 +40,7 @@ describe('Post Social Script', () => {
 
         test('tweet includes hashtags', () => {
             const quote = { text: 'Test', author: 'Author' };
-            const siteUrl = 'https://dailylift.site';
+            const siteUrl = 'https://quickutils.top';
             const tweet = `✨ Today's Quote:\n\n"${quote.text}"\n— ${quote.author}\n\n🌐 More at ${siteUrl}\n\n#motivation #quotes #dailyquotes #inspiration`;
             expect(tweet).toContain('#motivation');
             expect(tweet).toContain('#quotes');
@@ -50,7 +50,7 @@ describe('Post Social Script', () => {
 
         test('tweet includes site URL', () => {
             const quote = { text: 'Test', author: 'Author' };
-            const siteUrl = 'https://dailylift.site';
+            const siteUrl = 'https://quickutils.top';
             const tweet = `✨ Today's Quote:\n\n"${quote.text}"\n— ${quote.author}\n\n🌐 More at ${siteUrl}\n\n#motivation #quotes #dailyquotes #inspiration`;
             expect(tweet).toContain(siteUrl);
         });
@@ -58,15 +58,15 @@ describe('Post Social Script', () => {
         test('tweet with longest quote stays under 500 chars', () => {
             const quotes = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'quotes-collection.json'), 'utf-8'));
             const longest = quotes.reduce((a, b) => a.text.length > b.text.length ? a : b);
-            const tweet = `✨ Today's Quote:\n\n"${longest.text}"\n— ${longest.author}\n\n🌐 More at https://dailylift.site\n\n#motivation #quotes #dailyquotes #inspiration`;
+            const tweet = `✨ Today's Quote:\n\n"${longest.text}"\n— ${longest.author}\n\n🌐 More at https://quickutils.top\n\n#motivation #quotes #dailyquotes #inspiration`;
             expect(tweet.length).toBeLessThan(500);
         });
     });
 
     describe('Environment Variable Handling', () => {
         test('SITE_URL defaults to dailylift.site when not set', () => {
-            const siteUrl = process.env.SITE_URL || 'https://dailylift.site';
-            expect(siteUrl).toBe('https://dailylift.site');
+            const siteUrl = process.env.SITE_URL || 'https://quickutils.top';
+            expect(siteUrl).toBe('https://quickutils.top');
         });
 
         test('TWITTER_BEARER_TOKEN defaults to empty string', () => {
@@ -83,7 +83,7 @@ describe('Post Social Script', () => {
     describe('IFTTT Webhook Payload', () => {
         test('webhook payload has correct structure', () => {
             const quote = { text: 'Test quote', author: 'Test Author' };
-            const siteUrl = 'https://dailylift.site';
+            const siteUrl = 'https://quickutils.top';
             const payload = {
                 value1: quote.text,
                 value2: quote.author,
@@ -97,7 +97,7 @@ describe('Post Social Script', () => {
 
         test('webhook payload JSON is valid', () => {
             const quote = { text: 'Test quote', author: 'Test Author' };
-            const payload = { value1: quote.text, value2: quote.author, value3: 'https://dailylift.site' };
+            const payload = { value1: quote.text, value2: quote.author, value3: 'https://quickutils.top' };
             expect(() => JSON.stringify(payload)).not.toThrow();
         });
     });

@@ -8,7 +8,7 @@ const path = require('path');
 const https = require('https');
 
 const CURRENT_FILE = path.join(__dirname, '..', 'data', 'current-quote.json');
-const SITE_URL = process.env.SITE_URL || 'https://dailylift.site';
+const SITE_URL = process.env.SITE_URL || 'https://quickutils.top';
 
 // Mastodon Credentials
 const MASTODON_TOKEN = process.env.MASTODON_ACCESS_TOKEN || '';

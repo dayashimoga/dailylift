@@ -59,7 +59,14 @@ Google AdSense injects contextual banner ads into the website.
    - Open all `.html` files and `scripts/build.js`.
    - Locate the `<ins class="adsbygoogle">` tags.
    - Replace the `data-ad-slot` value with the corresponding slot ID you generated. Note: The codebase currently has specific IDs integrated (`2246027256` for index, `2573330311` for tools, `8571762456` for blog, `1479740496` for about). Update these with your own if they change.
-6. **Wait for Approval:** Google takes 3–14 days to review and approve the site. Ads will remain blank until approved.
+6. **Wait for Approval ("Getting Ready"):**
+   - Google takes **3–14 days** to manually review the site for quality guidelines.
+   - During the "Getting ready" state in your AdSense dashboard, **ads will intentionally appear as blank spaces** on your site. This is completely standard. 
+   - **Do not remove your ad codes** during this time. Google's crawlers need to find the codes to verify your ownership.
+7. **Configure `ads.txt` Integration:**
+   - AdSense requires a file called `ads.txt` (Authorized Digital Sellers) at the root of your domain. It is a public ledger proving Google is authorized to sell your ad space.
+   - We have already integrated this by placing `src/ads.txt` containing your publisher ID into the repository.
+   - `scripts/build.js` automatically copies this file to your `dist/` directory during Netlify deployment so Google crawlers can successfully find `https://dailylift.site/ads.txt`. If you ever change your Publisher ID, update this file.
 
 ---
 
@@ -115,4 +122,7 @@ DailyLift automatically posts a random daily quote to a Mastodon social profile 
    - Navigate to **Settings** > **Secrets and variables** > **Actions** > **New repository secret**.
    - Create `MASTODON_ACCESS_TOKEN` and paste your token.
    - Create `MASTODON_INSTANCE_URL` and set it to your server (e.g., `mastodon.social`).
-4. **How It Works:** The GitHub Action (`.github/workflows/update-content.yml`) runs daily. It seamlessly fetches a quote from ZenQuotes via `scripts/fetch-quote.js` and securely posts it to Mastodon using `scripts/post-social.js`. It does not commit code back to the repository, meaning zero Netlify build minutes are consumed.
+5. **Generating Link Previews (Open Graph Images):**
+   - We have integrated an `og-image.png` file in the `src/images/` folder.
+   - All HTML files (`index.html`, `tools.html`, etc.) contain `<meta property="og:image">` tags pointing to this file.
+   - This ensures that when the automation posts your link to Mastodon (or if users share it on Twitter/LinkedIn), a rich, graphical preview card appears instead of a blank grey box.
