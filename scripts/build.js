@@ -275,6 +275,25 @@ function build() {
   // 7. Generate sitemap
   require('./generate-sitemap.js');
 
+  // 8. Generate Cloudflare Pages configuration
+  const headers = `/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/*
+  Cache-Control: public, max-age=3600`;
+
+  fs.writeFileSync(path.join(DIST, '_headers'), headers);
+  fs.writeFileSync(path.join(DIST, '_redirects'), ''); // Empty for now
+  console.log('☁️ Generated Cloudflare Pages _headers and _redirects');
+
   console.log('\n✅ Build complete! Output: dist/');
 }
 
