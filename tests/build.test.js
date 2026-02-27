@@ -115,66 +115,67 @@ describe('Build Script', () => {
                 expect(content).toContain('twitter:card" content="summary_large_image"');
             }
         });
+    });
 
-        describe('Branch Coverage Edge Cases', () => {
-            test('handles cleanDir when directory does not exist', () => {
-                // Delete dist first
-                try {
-                    fs.rmSync(DIST, { recursive: true, force: true });
-                } catch (e) { }
+    describe('Branch Coverage Edge Cases', () => {
+        test('handles cleanDir when directory does not exist', () => {
+            // Delete dist first
+            try {
+                fs.rmSync(DIST, { recursive: true, force: true });
+            } catch (e) { }
 
-                // Re-run the build which will call cleanDir on non-existent dir
-                jest.resetModules();
-                require('../scripts/build.js');
-                expect(fs.existsSync(DIST)).toBe(true);
+            // Re-run the build which will call cleanDir on non-existent dir
+            jest.resetModules();
+            require('../scripts/build.js');
+            expect(fs.existsSync(DIST)).toBe(true);
+        });
+
+        test('handles missing blog content directory gracefully', () => {
+            const originalExists = fs.existsSync;
+            const spy = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+                if (p === CONTENT) return false;
+                return originalExists(p);
             });
 
-            test('handles missing blog content directory gracefully', () => {
-                const originalExists = fs.existsSync;
-                const spy = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
-                    if (p === CONTENT) return false;
-                    return originalExists(p);
-                });
+            // Run build block
+            jest.resetModules();
+            require('../scripts/build.js');
 
-                // Run build block
-                jest.resetModules();
-                require('../scripts/build.js');
+            // Expect empty blog-index.json since no files exist
+            const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
+            expect(blogIndex.length).toBe(0);
 
-                // Expect empty blog-index.json since no files exist
-                const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
-                expect(blogIndex.length).toBe(0);
+            // Restore
+            spy.mockRestore();
+        });
 
-                // Restore
-                spy.mockRestore();
-            });
+        test('handles blog posts with missing frontmatter fields', () => {
+            // Create a temporary markdown file with empty frontmatter
+            const tempMdFile = path.join(CONTENT, 'temp-missing-frontmatter.md');
+            fs.writeFileSync(tempMdFile, '---\n---\n# Missing frontmatter');
 
-            test('handles blog posts with missing frontmatter fields', () => {
-                // Create a temporary markdown file with empty frontmatter
-                const tempMdFile = path.join(CONTENT, 'temp-missing-frontmatter.md');
-                fs.writeFileSync(tempMdFile, '---\n---\n# Missing frontmatter');
+            // Re-run build
+            jest.resetModules();
+            require('../scripts/build.js');
 
-                // Re-run build
-                jest.resetModules();
-                require('../scripts/build.js');
+            const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
+            const entry = blogIndex.find(e => e.slug === 'temp-missing-frontmatter');
 
-                const blogIndex = JSON.parse(fs.readFileSync(path.join(DIST, 'data', 'blog-index.json'), 'utf-8'));
-                const entry = blogIndex.find(e => e.slug === 'temp-missing-frontmatter');
+            expect(entry.title).toBe('temp-missing-frontmatter'); // Fallback to slug
+            expect(entry.description).toBe(''); // Fallback to empty string
+            expect(entry.date).toBe(''); // Fallback
+            expect(entry.emoji).toBe('📝'); // Fallback to pencil
+            expect(entry.hue).toBe(265); // Fallback to 265
 
-                expect(entry.title).toBe('temp-missing-frontmatter'); // Fallback to slug
-                expect(entry.description).toBe(''); // Fallback to empty string
-                expect(entry.date).toBe(''); // Fallback
-                expect(entry.emoji).toBe('📝'); // Fallback to pencil
-                expect(entry.hue).toBe(265); // Fallback to 265
+            // Cleanup
+            fs.unlinkSync(tempMdFile);
+            jest.resetModules();
+            require('../scripts/build.js');
+        });
 
-                // Cleanup
-                fs.unlinkSync(tempMdFile);
-                jest.resetModules();
-                require('../scripts/build.js');
-            });
-
-            test('handles copyRecursive with missing source directory', () => {
-                // Because copyRecursive exists, lets try copying a fake dir
-                const tempScript = `
+        test('handles copyRecursive with missing source directory', () => {
+            // Because copyRecursive exists, lets try copying a fake dir
+            const tempScript = `
                 const fs = require('fs');
                 const path = require('path');
                 function copyRecursive(src, dest) {
@@ -192,9 +193,9 @@ describe('Build Script', () => {
                 }
                 copyRecursive('fake_source_dir_that_does_not_exist_123', 'fake_dest_123');
             `;
-                fs.writeFileSync(path.join(__dirname, 'temp-test.js'), tempScript);
-                expect(() => require('./temp-test.js')).not.toThrow();
-                fs.unlinkSync(path.join(__dirname, 'temp-test.js'));
-            });
+            fs.writeFileSync(path.join(__dirname, 'temp-test.js'), tempScript);
+            expect(() => require('./temp-test.js')).not.toThrow();
+            fs.unlinkSync(path.join(__dirname, 'temp-test.js'));
         });
     });
+});
