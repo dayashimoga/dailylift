@@ -44,7 +44,7 @@ describe('Lint Checks', () => {
         test.each(htmlFiles)('%s has Pinterest verification meta tag', (file) => {
             const content = fs.readFileSync(path.join(SRC, file), 'utf-8');
             expect(content).toContain('name="p:domain_verify"');
-            expect(content).toContain('content="YOUR_PINTEREST_CODE"');
+            expect(content).toContain('content="c816c2b41079835efd234cb5afef59bf"');
         });
 
         test('index.html has Amazon affiliate links', () => {

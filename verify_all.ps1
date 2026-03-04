@@ -1,91 +1,92 @@
 # verify_all.ps1
-# Fully automated verification script for all projects
+# Simple flat verification script
 
 $ErrorActionPreference = "Stop"
 
-function Run-ExternalCommand {
-    param([string]$Command, [string]$Arguments)
-    Write-Host "Running: $Command $Arguments" -ForegroundColor Gray
-    & $Command $Arguments.Split(" ")
+function Check-Exit {
     if ($LASTEXITCODE -ne 0) {
-        throw "Command '$Command $Arguments' failed with exit code $LASTEXITCODE"
+        Write-Host "❌ Failed with exit code $LASTEXITCODE" -ForegroundColor Red
+        exit $LASTEXITCODE
     }
 }
 
-Write-Host "🚀 Starting full project verification..." -ForegroundColor Cyan
-
-# 1. boringwebsite (Node.js via Docker)
-Write-Host "`n📦 Verifying boringwebsite via Docker..." -ForegroundColor Magenta
+Write-Host "🚀 Starting boringwebsite..." -ForegroundColor Cyan
 pushd "H:\boringwebsite"
-try {
-    Write-Host "Building Docker image for boringwebsite..."
-    Run-ExternalCommand "docker" "build -t boringwebsite-test ."
-    Write-Host "Running tests in Docker..."
-    Run-ExternalCommand "docker" "run --rm boringwebsite-test npm run test:coverage"
-    Write-Host "✅ boringwebsite verified!" -ForegroundColor Green
-} catch {
-    Write-Host "❌ boringwebsite verification failed: $_" -ForegroundColor Red
-    exit 1
-} finally {
-    popd
-}
+docker build -t boringwebsite-test .
+Check-Exit
+docker run --rm boringwebsite-test npm run test:coverage
+Check-Exit
+popd
 
-# 2. dailyfacts (Node.js via Docker)
-Write-Host "`n📦 Verifying dailyfacts via Docker..." -ForegroundColor Magenta
+Write-Host "🚀 Starting dailyfacts..." -ForegroundColor Cyan
 pushd "H:\boring\projects\dailyfacts"
-try {
-    Write-Host "Building Docker image for dailyfacts (test stage)..."
-    $dockerfileTest = @"
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-CMD ["npm", "run", "test:coverage"]
-"@
-    $dockerfileTest | Out-File -FilePath "Dockerfile.test" -Encoding UTF8
-    
-    Run-ExternalCommand "docker" "build -t dailyfacts-test -f Dockerfile.test ."
-    Write-Host "Running tests in Docker..."
-    Run-ExternalCommand "docker" "run --rm dailyfacts-test npm run test:coverage"
-    Write-Host "✅ dailyfacts verified!" -ForegroundColor Green
-} catch {
-    Write-Host "❌ dailyfacts verification failed: $_" -ForegroundColor Red
-    exit 1
-} finally {
-    if (Test-Path "Dockerfile.test") { Remove-Item "Dockerfile.test" }
-    popd
-}
+"FROM node:20-alpine" | Out-File Dockerfile.test -Encoding UTF8
+"WORKDIR /app" | Add-Content Dockerfile.test
+"COPY package*.json ./" | Add-Content Dockerfile.test
+"RUN npm install" | Add-Content Dockerfile.test
+"COPY . ." | Add-Content Dockerfile.test
+'CMD ["npm", "run", "test:coverage"]' | Add-Content Dockerfile.test
+docker build -t dailyfacts-test -f Dockerfile.test .
+Check-Exit
+docker run --rm dailyfacts-test
+Check-Exit
+Remove-Item Dockerfile.test
+popd
 
-# 3. boring (Python via Temp Venv)
-Write-Host "`n🐍 Verifying boring (Python) via temporary venv..." -ForegroundColor Magenta
+Write-Host "🚀 Starting boring (core)..." -ForegroundColor Cyan
 pushd "H:\boring"
-try {
-    Write-Host "Creating temporary virtual environment..."
-    Run-ExternalCommand "python" "-m venv temp_venv"
-    
-    Write-Host "Activating venv and installing dependencies..."
-    # We use cmd /c because of PowerShell activation peculiarities in some environments
-    $installCmd = ".\temp_venv\Scripts\python.exe -m pip install --upgrade pip && " +
-                  ".\temp_venv\Scripts\pip.exe install pytest pytest-cov pytest-asyncio aiohttp jinja2"
-    if (Test-Path "requirements.txt") {
-        $installCmd += " && .\temp_venv\Scripts\pip.exe install -r requirements.txt"
-    }
-    Run-ExternalCommand "cmd" "/c $installCmd"
-    
-    Write-Host "Running pytest with coverage..."
-    Run-ExternalCommand ".\temp_venv\Scripts\pytest.exe" "tests/ --cov=scripts --cov-report=term"
-    
-    Write-Host "✅ boring (Python) verified!" -ForegroundColor Green
-} catch {
-    Write-Host "❌ boring (Python) verification failed: $_" -ForegroundColor Red
-    exit 1
-} finally {
-    if (Test-Path "temp_venv") {
-        Write-Host "Removing temporary venv..."
-        Remove-Item -Recurse -Force temp_venv
-    }
-    popd
-}
+"FROM python:3.11-slim" | Out-File Dockerfile.test -Encoding UTF8
+"WORKDIR /app" | Add-Content Dockerfile.test
+"COPY . ." | Add-Content Dockerfile.test
+"RUN pip install pytest pytest-cov pytest-asyncio aiohttp jinja2 responses requests htmlmin" | Add-Content Dockerfile.test
+'CMD ["pytest", "tests/", "--cov=scripts", "--cov-report=term", "--cov-fail-under=90"]' | Add-Content Dockerfile.test
+docker build -t boring-test -f Dockerfile.test .
+Check-Exit
+docker run --rm boring-test
+Check-Exit
+Remove-Item Dockerfile.test
+popd
 
-Write-Host "`n🎉 All projects verified successfully!" -ForegroundColor Green
+Write-Host "🚀 Starting datasets-directory..." -ForegroundColor Cyan
+pushd "H:\boring\projects\datasets-directory"
+"FROM python:3.11-slim" | Out-File Dockerfile.test -Encoding UTF8
+"WORKDIR /app" | Add-Content Dockerfile.test
+"COPY . ." | Add-Content Dockerfile.test
+"RUN pip install pytest pytest-cov pytest-asyncio aiohttp jinja2 responses requests" | Add-Content Dockerfile.test
+'CMD ["pytest", "tests/", "--cov=scripts", "--cov-report=term", "--cov-fail-under=90"]' | Add-Content Dockerfile.test
+docker build -t datasets-test -f Dockerfile.test .
+Check-Exit
+docker run --rm datasets-test
+Check-Exit
+Remove-Item Dockerfile.test
+popd
+
+Write-Host "🚀 Starting opensource-directory..." -ForegroundColor Cyan
+pushd "H:\boring\projects\opensource-directory"
+"FROM python:3.11-slim" | Out-File Dockerfile.test -Encoding UTF8
+"WORKDIR /app" | Add-Content Dockerfile.test
+"COPY . ." | Add-Content Dockerfile.test
+"RUN pip install pytest pytest-cov pytest-asyncio aiohttp jinja2 responses requests" | Add-Content Dockerfile.test
+'CMD ["pytest", "tests/", "--cov=scripts", "--cov-report=term", "--cov-fail-under=90"]' | Add-Content Dockerfile.test
+docker build -t opensource-test -f Dockerfile.test .
+Check-Exit
+docker run --rm opensource-test
+Check-Exit
+Remove-Item Dockerfile.test
+popd
+
+Write-Host "🚀 Starting tools-directory..." -ForegroundColor Cyan
+pushd "H:\boring\projects\tools-directory"
+"FROM python:3.11-slim" | Out-File Dockerfile.test -Encoding UTF8
+"WORKDIR /app" | Add-Content Dockerfile.test
+"COPY . ." | Add-Content Dockerfile.test
+"RUN pip install pytest pytest-cov pytest-asyncio aiohttp jinja2 responses requests" | Add-Content Dockerfile.test
+'CMD ["pytest", "tests/", "--cov=scripts", "--cov-report=term", "--cov-fail-under=90"]' | Add-Content Dockerfile.test
+docker build -t tools-test -f Dockerfile.test .
+Check-Exit
+docker run --rm tools-test
+Check-Exit
+Remove-Item Dockerfile.test
+popd
+
+Write-Host "🎉 All projects verified!" -ForegroundColor Green

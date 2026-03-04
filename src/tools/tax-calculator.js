@@ -63,7 +63,7 @@
     function getBracketLabel(income, country) {
         var brackets = BRACKETS[country];
         var prev = 0;
-        for (var i = 0; i < brackets.length; i++) {
+        for (var i = 0; i < brackets.length - 1; i++) {
             if (income <= brackets[i].limit) {
                 return (brackets[i].rate * 100).toFixed(0) + '% bracket';
             }

@@ -143,6 +143,18 @@ describe('Insurance Premium Estimator', () => {
             expect(document.getElementById('insMonthly').textContent).toBe('—');
         });
 
+        test('handles missing resultBox gracefully', () => {
+            document.getElementById('insResult').remove();
+            setInputs(30, 'health', 500000);
+            expect(() => submitForm()).not.toThrow();
+        });
+
+        test('does not calculate for unknown insurance type', () => {
+            setInputs(30, 'unknown', 500000);
+            submitForm();
+            expect(document.getElementById('insMonthly').textContent).toBe('—');
+        });
+
         test('initializes without form gracefully', () => {
             document.body.innerHTML = '';
             expect(() => {

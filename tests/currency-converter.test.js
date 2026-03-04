@@ -128,6 +128,12 @@ describe('Currency Converter', () => {
             expect(document.getElementById('currResult').textContent).toBe('—');
         });
 
+        test('handles missing resultBox gracefully', () => {
+            document.getElementById('currencyResult').remove();
+            setInputs(100, 'USD', 'EUR');
+            expect(() => submitForm()).not.toThrow();
+        });
+
         test('initializes without form gracefully', () => {
             document.body.innerHTML = '';
             expect(() => {

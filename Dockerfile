@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 LABEL maintainer="DailyLift"
 LABEL description="Build, test, and serve the DailyLift static website"

@@ -131,6 +131,12 @@ describe('Income Tax Calculator', () => {
             expect(taxText).toContain('₹');
             expect(taxText).toContain('0');
         });
+
+        test('Top bracket applies for very high income', () => {
+            setInputs('india', 2000000);
+            submitForm();
+            expect(document.getElementById('taxBracket').textContent).toBe('Top bracket');
+        });
     });
 
     describe('Edge Cases', () => {
