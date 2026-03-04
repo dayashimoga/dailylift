@@ -40,6 +40,23 @@ describe('Lint Checks', () => {
             const content = fs.readFileSync(path.join(SRC, file), 'utf-8');
             expect(content).toContain('lang="en"');
         });
+
+        test.each(htmlFiles)('%s has Pinterest verification meta tag', (file) => {
+            const content = fs.readFileSync(path.join(SRC, file), 'utf-8');
+            expect(content).toContain('name="p:domain_verify"');
+            expect(content).toContain('content="YOUR_PINTEREST_CODE"');
+        });
+
+        test('index.html has Amazon affiliate links', () => {
+            const content = fs.readFileSync(path.join(SRC, 'index.html'), 'utf-8');
+            expect(content).toContain('amazon.com/dp/');
+            expect(content).toContain('tag=df-quickutils-21');
+        });
+
+        test('index.html has Pinterest share button', () => {
+            const content = fs.readFileSync(path.join(SRC, 'index.html'), 'utf-8');
+            expect(content).toContain('pinterest.com/pin/create/button/');
+        });
     });
 
     describe('JavaScript Files', () => {
