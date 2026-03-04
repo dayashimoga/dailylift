@@ -13,5 +13,10 @@ Thumbs.db
 
 # Temporary scripts and testing output
 test_output.txt
+*.txt
+*_utf8.txt
+tests_output*
+final_test_out*
+dailyfacts_coverage*
 bulk-quotes.js
 .docker-volumes/

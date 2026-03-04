@@ -14,13 +14,13 @@ describe('Income Tax Calculator', () => {
         <select id="taxCountry">
           <option value="us">United States</option>
           <option value="uk">United Kingdom</option>
-          <option value="ca">Canada</option>
-          <option value="in">India</option>
+          <option value="canada">Canada</option>
+          <option value="india">India</option>
         </select>
         <input type="number" id="taxIncome" value="">
         <button type="submit">Calculate</button>
       </form>
-      <div id="taxTotal">—</div>
+      <div id="taxAmount">—</div>
       <div id="taxEffective">—</div>
       <div id="taxTakeHome">—</div>
       <div id="taxBracket">—</div>
@@ -43,28 +43,36 @@ describe('Income Tax Calculator', () => {
         test('calculates tax for $50,000 income', () => {
             setInputs('us', 50000);
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).not.toBe('—');
-            expect(document.getElementById('taxEffective').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toContain('$');
+            expect(document.getElementById('taxEffective').textContent).toContain('effective rate');
         });
 
         test('calculates tax for $100,000 income', () => {
             setInputs('us', 100000);
             submitForm();
             expect(document.getElementById('taxTakeHome').textContent).not.toBe('—');
+            expect(document.getElementById('taxTakeHome').textContent).toContain('$');
+        });
+
+        test('shows correct tax bracket', () => {
+            setInputs('us', 50000);
+            submitForm();
+            expect(document.getElementById('taxBracket').textContent).toContain('bracket');
         });
 
         test('higher income produces higher tax', () => {
             setInputs('us', 50000);
             submitForm();
-            const lowTax = document.getElementById('taxTotal').textContent;
+            const lowTax = document.getElementById('taxAmount').textContent;
 
             document.body.innerHTML = `
         <form id="taxForm">
-          <select id="taxCountry"><option value="us">US</option><option value="uk">UK</option><option value="ca">Canada</option><option value="in">India</option></select>
+          <select id="taxCountry"><option value="us">US</option><option value="uk">UK</option><option value="canada">Canada</option><option value="india">India</option></select>
           <input type="number" id="taxIncome" value="">
           <button type="submit">Calculate</button>
         </form>
-        <div id="taxTotal">—</div>
+        <div id="taxAmount">—</div>
         <div id="taxEffective">—</div>
         <div id="taxTakeHome">—</div>
         <div id="taxBracket">—</div>
@@ -73,7 +81,7 @@ describe('Income Tax Calculator', () => {
             require('../src/tools/tax-calculator.js');
             setInputs('us', 500000);
             submitForm();
-            const highTax = document.getElementById('taxTotal').textContent;
+            const highTax = document.getElementById('taxAmount').textContent;
 
             expect(highTax).not.toBe(lowTax);
         });
@@ -83,23 +91,42 @@ describe('Income Tax Calculator', () => {
         test('calculates UK tax', () => {
             setInputs('uk', 50000);
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toContain('£');
+        });
+
+        test('UK income below personal allowance has zero tax', () => {
+            setInputs('uk', 10000);
+            submitForm();
+            const taxText = document.getElementById('taxAmount').textContent;
+            expect(taxText).toContain('£');
+            expect(taxText).toContain('0');
         });
     });
 
     describe('Canada Tax Calculations', () => {
         test('calculates Canada tax', () => {
-            setInputs('ca', 80000);
+            setInputs('canada', 80000);
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toContain('C$');
         });
     });
 
     describe('India Tax Calculations', () => {
         test('calculates India tax', () => {
-            setInputs('in', 1000000);
+            setInputs('india', 1000000);
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).not.toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toContain('₹');
+        });
+
+        test('India income below 300000 has zero tax', () => {
+            setInputs('india', 250000);
+            submitForm();
+            const taxText = document.getElementById('taxAmount').textContent;
+            expect(taxText).toContain('₹');
+            expect(taxText).toContain('0');
         });
     });
 
@@ -107,19 +134,19 @@ describe('Income Tax Calculator', () => {
         test('does not calculate with empty income', () => {
             setInputs('us', '');
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toBe('—');
         });
 
         test('does not calculate with zero income', () => {
             setInputs('us', 0);
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toBe('—');
         });
 
         test('does not calculate with negative income', () => {
             setInputs('us', -50000);
             submitForm();
-            expect(document.getElementById('taxTotal').textContent).toBe('—');
+            expect(document.getElementById('taxAmount').textContent).toBe('—');
         });
 
         test('initializes without form gracefully', () => {

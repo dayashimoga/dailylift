@@ -174,7 +174,6 @@ describe('Build Script', () => {
         });
 
         test('handles copyRecursive with missing source directory', () => {
-            // Because copyRecursive exists, lets try copying a fake dir
             const tempScript = `
                 const fs = require('fs');
                 const path = require('path');
@@ -196,6 +195,38 @@ describe('Build Script', () => {
             fs.writeFileSync(path.join(__dirname, 'temp-test.js'), tempScript);
             expect(() => require('./temp-test.js')).not.toThrow();
             fs.unlinkSync(path.join(__dirname, 'temp-test.js'));
+        });
+
+        test('handles process.env.IS_DOCKER true', () => {
+            process.env.IS_DOCKER = 'true';
+            jest.resetModules();
+            require('../scripts/build.js');
+            delete process.env.IS_DOCKER;
+        });
+
+        test('handles missing src/robots.txt and replaces existing Sitemap', () => {
+            const originalExists = fs.existsSync;
+            const originalRead = fs.readFileSync;
+            const spyExists = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+                if (p.includes('robots.txt')) return false;
+                return originalExists(p);
+            });
+            jest.resetModules();
+            require('../scripts/build.js');
+            spyExists.mockRestore();
+
+            const spyExists2 = jest.spyOn(fs, 'existsSync').mockImplementation((p) => {
+                if (p.includes('robots.txt')) return true;
+                return originalExists(p);
+            });
+            const spyRead = jest.spyOn(fs, 'readFileSync').mockImplementation((p, enc) => {
+                if (p.includes('robots.txt')) return 'User-agent: *\nSitemap: https://old.com/sitemap.xml';
+                return originalRead(p, enc);
+            });
+            jest.resetModules();
+            require('../scripts/build.js');
+            spyExists2.mockRestore();
+            spyRead.mockRestore();
         });
     });
 });

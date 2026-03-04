@@ -11,35 +11,23 @@ describe('Currency Converter', () => {
     beforeEach(() => {
         document.body.innerHTML = `
       <form id="currencyForm">
-        <input type="number" id="currencyAmount" value="">
-        <select id="currencyFrom">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="INR">INR</option>
-          <option value="JPY">JPY</option>
-        </select>
-        <select id="currencyTo">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="INR">INR</option>
-          <option value="JPY">JPY</option>
-        </select>
+        <input type="number" id="currAmount" value="">
+        <select id="currFrom"></select>
+        <select id="currTo"></select>
         <button type="submit">Convert</button>
-        <button type="button" id="currencySwap">⇄</button>
+        <button type="button" id="currSwap">⇄</button>
       </form>
-      <div id="currencyResult">—</div>
-      <div id="currencyRate">—</div>
+      <div id="currResult">—</div>
+      <div id="currRate">—</div>
     `;
         jest.resetModules();
         require('../src/tools/currency-converter.js');
     });
 
     function setInputs(amount, from, to) {
-        document.getElementById('currencyAmount').value = amount;
-        document.getElementById('currencyFrom').value = from;
-        document.getElementById('currencyTo').value = to;
+        document.getElementById('currAmount').value = amount;
+        document.getElementById('currFrom').value = from;
+        document.getElementById('currTo').value = to;
     }
 
     function submitForm() {
@@ -51,43 +39,71 @@ describe('Currency Converter', () => {
         test('converts USD to EUR', () => {
             setInputs(100, 'USD', 'EUR');
             submitForm();
-            const result = document.getElementById('currencyResult').textContent;
+            const result = document.getElementById('currResult').textContent;
             expect(result).not.toBe('—');
+            expect(result).toContain('EUR');
         });
 
         test('converts USD to INR', () => {
             setInputs(100, 'USD', 'INR');
             submitForm();
-            expect(document.getElementById('currencyResult').textContent).not.toBe('—');
+            expect(document.getElementById('currResult').textContent).not.toBe('—');
         });
 
         test('converts GBP to JPY', () => {
             setInputs(500, 'GBP', 'JPY');
             submitForm();
-            expect(document.getElementById('currencyResult').textContent).not.toBe('—');
+            expect(document.getElementById('currResult').textContent).not.toBe('—');
         });
 
         test('same currency returns same amount', () => {
             setInputs(100, 'USD', 'USD');
             submitForm();
-            const result = document.getElementById('currencyResult').textContent;
+            const result = document.getElementById('currResult').textContent;
             expect(result).toContain('100');
         });
 
         test('shows exchange rate', () => {
             setInputs(100, 'USD', 'EUR');
             submitForm();
-            expect(document.getElementById('currencyRate').textContent).not.toBe('—');
+            const rate = document.getElementById('currRate').textContent;
+            expect(rate).not.toBe('—');
+            expect(rate).toContain('1 USD');
+        });
+
+        test('converts INR to USD', () => {
+            setInputs(8320, 'INR', 'USD');
+            submitForm();
+            const result = document.getElementById('currResult').textContent;
+            expect(result).toContain('USD');
+            expect(result).not.toBe('—');
+        });
+    });
+
+    describe('Dropdown Population', () => {
+        test('populates from dropdown with currencies', () => {
+            const fromSel = document.getElementById('currFrom');
+            expect(fromSel.options.length).toBeGreaterThan(10);
+        });
+
+        test('populates to dropdown with currencies', () => {
+            const toSel = document.getElementById('currTo');
+            expect(toSel.options.length).toBeGreaterThan(10);
+        });
+
+        test('defaults to USD and INR', () => {
+            expect(document.getElementById('currFrom').value).toBe('USD');
+            expect(document.getElementById('currTo').value).toBe('INR');
         });
     });
 
     describe('Swap Feature', () => {
         test('swap button switches currencies', () => {
-            setInputs(100, 'USD', 'EUR');
-            const swapBtn = document.getElementById('currencySwap');
+            // Defaults are USD -> INR
+            const swapBtn = document.getElementById('currSwap');
             swapBtn.click();
-            expect(document.getElementById('currencyFrom').value).toBe('EUR');
-            expect(document.getElementById('currencyTo').value).toBe('USD');
+            expect(document.getElementById('currFrom').value).toBe('INR');
+            expect(document.getElementById('currTo').value).toBe('USD');
         });
     });
 
@@ -95,19 +111,19 @@ describe('Currency Converter', () => {
         test('does not convert with empty amount', () => {
             setInputs('', 'USD', 'EUR');
             submitForm();
-            expect(document.getElementById('currencyResult').textContent).toBe('—');
+            expect(document.getElementById('currResult').textContent).toBe('—');
         });
 
         test('does not convert with zero amount', () => {
             setInputs(0, 'USD', 'EUR');
             submitForm();
-            expect(document.getElementById('currencyResult').textContent).toBe('—');
+            expect(document.getElementById('currResult').textContent).toBe('—');
         });
 
         test('does not convert with negative amount', () => {
             setInputs(-100, 'USD', 'EUR');
             submitForm();
-            expect(document.getElementById('currencyResult').textContent).toBe('—');
+            expect(document.getElementById('currResult').textContent).toBe('—');
         });
 
         test('initializes without form gracefully', () => {

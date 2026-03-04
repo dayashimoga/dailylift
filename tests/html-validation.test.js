@@ -173,8 +173,8 @@ describe('HTML Pages', () => {
             expect($('#tools-section').length).toBe(1);
         });
 
-        test('has 6 tool cards', () => {
-            expect($('.tool-card').length).toBe(6);
+        test('has 10 tool cards', () => {
+            expect($('.tool-card').length).toBe(10);
         });
 
         test('has blog section', () => {
@@ -223,7 +223,7 @@ describe('HTML Pages', () => {
         beforeAll(() => { $ = loadPage('tools.html'); });
 
         test('has tool tabs', () => {
-            expect($('.tool-tab').length).toBe(3);
+            expect($('.tool-tab').length).toBe(7);
         });
 
         test('has bill splitter panel', () => {
@@ -236,6 +236,22 @@ describe('HTML Pages', () => {
 
         test('has unit converter panel', () => {
             expect($('#panel-unit').length).toBe(1);
+        });
+
+        test('has loan EMI panel', () => {
+            expect($('#panel-loan').length).toBe(1);
+        });
+
+        test('has insurance panel', () => {
+            expect($('#panel-insurance').length).toBe(1);
+        });
+
+        test('has currency converter panel', () => {
+            expect($('#panel-currency').length).toBe(1);
+        });
+
+        test('has tax calculator panel', () => {
+            expect($('#panel-tax').length).toBe(1);
         });
 
         test('bill form has required inputs', () => {
@@ -282,6 +298,10 @@ describe('HTML Pages', () => {
             expect(scripts.some(s => s.includes('bill-splitter'))).toBe(true);
             expect(scripts.some(s => s.includes('bmi-calculator'))).toBe(true);
             expect(scripts.some(s => s.includes('unit-converter'))).toBe(true);
+            expect(scripts.some(s => s.includes('loan-emi'))).toBe(true);
+            expect(scripts.some(s => s.includes('insurance-estimator'))).toBe(true);
+            expect(scripts.some(s => s.includes('currency-converter'))).toBe(true);
+            expect(scripts.some(s => s.includes('tax-calculator'))).toBe(true);
         });
 
         test('uses page-specific AdSlot ID', () => {

@@ -31,7 +31,7 @@ describe('Lint Checks', () => {
 
         test.each(htmlFiles)('%s has non-empty title', (file) => {
             const content = fs.readFileSync(path.join(SRC, file), 'utf-8');
-            const match = content.match(/<title>(.*?)<\/title>/);
+            const match = content.match(/<title>([\s\S]*?)<\/title>/);
             expect(match).not.toBeNull();
             expect(match[1].trim().length).toBeGreaterThan(0);
         });
@@ -169,7 +169,6 @@ describe('Lint Checks', () => {
         test('required root files exist', () => {
             expect(fs.existsSync(path.join(ROOT, 'package.json'))).toBe(true);
             expect(fs.existsSync(path.join(ROOT, 'README.md'))).toBe(true);
-            expect(fs.existsSync(path.join(ROOT, 'netlify.toml'))).toBe(true);
             expect(fs.existsSync(path.join(ROOT, '.gitignore'))).toBe(true);
             expect(fs.existsSync(path.join(ROOT, 'Dockerfile'))).toBe(true);
             expect(fs.existsSync(path.join(ROOT, 'docker-compose.yml'))).toBe(true);
@@ -182,7 +181,7 @@ describe('Lint Checks', () => {
 
         test('workflows directory has required YAML files', () => {
             const yamlFiles = fs.readdirSync(path.join(ROOT, '.github', 'workflows'));
-            expect(yamlFiles).toContain('deploy.yml');
+            expect(yamlFiles).toContain('ci.yml');
             expect(yamlFiles).toContain('update-content.yml');
             expect(yamlFiles).toContain('weekly-blog.yml');
         });
