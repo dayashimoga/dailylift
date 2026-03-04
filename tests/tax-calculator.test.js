@@ -24,6 +24,7 @@ describe('Income Tax Calculator', () => {
       <div id="taxEffective">—</div>
       <div id="taxTakeHome">—</div>
       <div id="taxBracket">—</div>
+      <div id="taxResult"></div>
     `;
         jest.resetModules();
         require('../src/tools/tax-calculator.js');
@@ -46,6 +47,7 @@ describe('Income Tax Calculator', () => {
             expect(document.getElementById('taxAmount').textContent).not.toBe('—');
             expect(document.getElementById('taxAmount').textContent).toContain('$');
             expect(document.getElementById('taxEffective').textContent).toContain('effective rate');
+            expect(document.getElementById('taxResult').classList.contains('visible')).toBe(true);
         });
 
         test('calculates tax for $100,000 income', () => {
@@ -76,6 +78,7 @@ describe('Income Tax Calculator', () => {
         <div id="taxEffective">—</div>
         <div id="taxTakeHome">—</div>
         <div id="taxBracket">—</div>
+        <div id="taxResult"></div>
       `;
             jest.resetModules();
             require('../src/tools/tax-calculator.js');

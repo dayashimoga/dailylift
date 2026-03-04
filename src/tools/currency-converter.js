@@ -48,6 +48,9 @@
 
         document.getElementById('currResult').textContent = result.toLocaleString('en-US', { maximumFractionDigits: 2 }) + ' ' + to;
         document.getElementById('currRate').textContent = '1 ' + from + ' = ' + rate.toFixed(4) + ' ' + to;
+
+        const resultBox = document.getElementById('currencyResult');
+        if (resultBox) resultBox.classList.add('visible');
     });
 
     // Swap button

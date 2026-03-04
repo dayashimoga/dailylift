@@ -19,6 +19,7 @@ describe('Loan EMI Calculator', () => {
       <div id="loanEmi">—</div>
       <div id="loanTotalInterest">—</div>
       <div id="loanTotalPayment">—</div>
+      <div id="loanResult"></div>
     `;
         jest.resetModules();
         require('../src/tools/loan-emi.js');
@@ -42,6 +43,7 @@ describe('Loan EMI Calculator', () => {
             const emi = document.getElementById('loanEmi').textContent;
             expect(emi).toContain('₹');
             expect(emi).not.toBe('—');
+            expect(document.getElementById('loanResult').classList.contains('visible')).toBe(true);
         });
 
         test('calculates EMI for car loan', () => {
@@ -75,6 +77,7 @@ describe('Loan EMI Calculator', () => {
         <div id="loanEmi">—</div>
         <div id="loanTotalInterest">—</div>
         <div id="loanTotalPayment">—</div>
+        <div id="loanResult"></div>
       `;
             require('../src/tools/loan-emi.js');
             setInputs(1000000, 15, 20);

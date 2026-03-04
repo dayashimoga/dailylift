@@ -87,5 +87,8 @@
         document.getElementById('taxEffective').textContent = result.effectiveRate.toFixed(1) + '% effective rate';
         document.getElementById('taxTakeHome').textContent = sym + takeHome.toLocaleString('en-US', { maximumFractionDigits: 0 });
         document.getElementById('taxBracket').textContent = getBracketLabel(income, country);
+
+        const resultBox = document.getElementById('taxResult');
+        if (resultBox) resultBox.classList.add('visible');
     });
 })();

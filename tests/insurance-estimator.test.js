@@ -23,6 +23,7 @@ describe('Insurance Premium Estimator', () => {
       <div id="insMonthly">—</div>
       <div id="insAnnual">—</div>
       <div id="insRisk">—</div>
+      <div id="insResult"></div>
     `;
         jest.resetModules();
         require('../src/tools/insurance-estimator.js');
@@ -45,6 +46,7 @@ describe('Insurance Premium Estimator', () => {
             submitForm();
             expect(document.getElementById('insMonthly').textContent).toContain('$');
             expect(document.getElementById('insAnnual').textContent).toContain('$');
+            expect(document.getElementById('insResult').classList.contains('visible')).toBe(true);
         });
 
         test('calculates health premium for middle-aged', () => {
@@ -68,6 +70,7 @@ describe('Insurance Premium Estimator', () => {
         <div id="insMonthly">—</div>
         <div id="insAnnual">—</div>
         <div id="insRisk">—</div>
+        <div id="insResult"></div>
       `;
             jest.resetModules();
             require('../src/tools/insurance-estimator.js');

@@ -19,6 +19,7 @@ describe('Currency Converter', () => {
       </form>
       <div id="currResult">—</div>
       <div id="currRate">—</div>
+      <div id="currencyResult"></div>
     `;
         jest.resetModules();
         require('../src/tools/currency-converter.js');
@@ -42,6 +43,7 @@ describe('Currency Converter', () => {
             const result = document.getElementById('currResult').textContent;
             expect(result).not.toBe('—');
             expect(result).toContain('EUR');
+            expect(document.getElementById('currencyResult').classList.contains('visible')).toBe(true);
         });
 
         test('converts USD to INR', () => {

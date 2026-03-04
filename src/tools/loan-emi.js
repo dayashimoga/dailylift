@@ -20,8 +20,11 @@
         const totalPayment = emi * n;
         const totalInterest = totalPayment - P;
 
-        document.getElementById('loanEmi').textContent = '₹' + emi.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-        document.getElementById('loanTotalInterest').textContent = '₹' + totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 });
-        document.getElementById('loanTotalPayment').textContent = '₹' + totalPayment.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+        document.getElementById('loanEmi').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+        document.getElementById('loanTotalInterest').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+        document.getElementById('loanTotalPayment').textContent = '₹' + Math.round(totalPayment).toLocaleString('en-IN');
+
+        const resultBox = document.getElementById('loanResult');
+        if (resultBox) resultBox.classList.add('visible');
     });
 })();

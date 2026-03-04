@@ -34,5 +34,8 @@
         if (age > 55) risk = 'High';
         else if (age > 40) risk = 'Medium';
         document.getElementById('insRisk').textContent = risk + ' Risk Profile';
+
+        const resultBox = document.getElementById('insResult');
+        if (resultBox) resultBox.classList.add('visible');
     });
 })();

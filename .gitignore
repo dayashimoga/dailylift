@@ -11,6 +11,12 @@ Thumbs.db
 *.swo
 *~
 
+# Virtual Environments
+venv/
+.venv/
+p_venv/
+env/
+
 # Temporary scripts and testing output
 test_output.txt
 *.txt
@@ -20,3 +26,6 @@ final_test_out*
 dailyfacts_coverage*
 bulk-quotes.js
 .docker-volumes/
+.pytest_cache/
+.coverage
+htmlcov/
