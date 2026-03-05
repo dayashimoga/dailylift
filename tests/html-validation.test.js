@@ -64,12 +64,12 @@ describe('HTML Pages', () => {
 
         test('has Open Graph image', () => {
             const ogImage = $('meta[property="og:image"]').attr('content');
-            expect(ogImage).toContain('og-image.png');
+            expect(ogImage).toContain('pinterest-cover.png');
         });
 
         test('has Twitter Card image', () => {
             const twImage = $('meta[name="twitter:image"]').attr('content');
-            expect(twImage).toContain('og-image.png');
+            expect(twImage).toContain('pinterest-cover.png');
         });
 
         // Navigation Tests
